@@ -1,0 +1,132 @@
+/* General body and font styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Container for the query builder */
+.query-builder {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for each query section */
+.query-section {
+    margin-bottom: 15px;
+}
+
+/* Styling for labels */
+.query-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Styling for select dropdowns */
+.query-section select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Styling for buttons */
+.query-section button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #007bff;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.query-section button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for inputs within query sections */
+.query-section input[type="text"] {
+    width: calc(100% - 100px);
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.query-section .remove-button {
+    background-color: #dc3545;
+}
+
+.query-section .remove-button:hover {
+    background-color: #c82333;
+}
+
+/* Styling for query output and results */
+.query-section h3 {
+    margin-top: 0;
+}
+
+#query-output, #query-results {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    white-space: pre-wrap; /* Preserves whitespace and line breaks */
+    font-family: monospace;
+}
+
+#query-results {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Additional styling for table details and results section */
+#table-select, #table-details, #results {
+    margin-top: 20px;
+}
+
+#table-details, #results {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+
+/* Styles for table details */
+#table-details {
+    margin-top: 20px;
+}
+
+.table-details {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.table-details th,
+.table-details td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table-details th {
+    background-color: #f4f4f4;
+}
+
+.table-details tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table-details tr:hover {
+    background-color: #f1f1f1;
+}

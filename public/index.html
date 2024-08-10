@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Query Builder Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="js/queryBuilder.js"></script>
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <div class="query-builder">
+        <div class="query-section">
+            <label for="select-table">FROM Table:</label>
+            <select id="select-table">
+            </select>
+        </div>
+
+        <div class="query-section">
+            <label for="select-columns">Select * Columns:</label>
+            <select id="select-columns" multiple>
+            </select>
+        </div>
+
+        <div class="query-section">
+            <button id="add-join">Add JOIN</button>
+            <button id="add-where">Add WHERE</button>
+            <button id="add-condition">Add Condition</button>
+        </div>
+
+        <div class="query-section" id="join-inputs">
+        </div>
+
+        <div class="query-section" id="where-inputs">
+        </div>
+
+        <div class="query-section" id="condition-inputs">
+        </div>
+
+        <div class="query-section">
+            <h3>Constructed Query:</h3>
+            <div id="query-output">
+            </div>
+        </div>
+
+        <div class="query-section">
+            <button id="run-query">Run Query</button>
+        </div>
+
+        <div class="query-section">
+            <h3>Query Results:</h3>
+            <pre id="query-results">
+            </pre>
+        </div>
+    </div>
+
+    <!-- <h2>Query Results</h2>
+    <pre id="results"></pre> -->
+
+    <!-- <button type="button" onclick="populateTableSelect()">Populate Table Select</button>
+    <h2>Tables</h2>
+    <label for="table-select">Select Table:</label>
+    <select id="table-select" onchange="displayTableDetails()"></select>
+    <div id="table-details">
+    </div> -->
+    
+    <button type="button" onclick="populateTableSelect()">Populate Table Select</button>
+    <div class="table-container">
+        <h2>Tables</h2>
+        <label for="table-select">Select Table:</label>
+        <select id="table-select" onchange="displayTableDetails()"></select>
+    </div>
+
+    <div id="table-details">
+        <!-- Table details will be displayed here -->
+    </div>
+</div>
+</body>
+</html>

@@ -14,6 +14,9 @@
             <label for="select-table">FROM Table:</label>
             <select id="select-table">
             </select>
+
+            <label for="table-alias">Alias:</label>
+            <input type="text" id="table-alias" placeholder="Alias (optional)">
         </div>
 
         <div class="query-section">
@@ -64,16 +67,16 @@
     <div id="table-details">
     </div> -->
     
-    <button type="button" onclick="populateTableSelect()">Populate Table Select</button>
     <div class="table-container">
+        <button type="button" onclick="populateTableSelect()">Populate Table Select</button>
         <h2>Tables</h2>
         <label for="table-select">Select Table:</label>
         <select id="table-select" onchange="displayTableDetails()"></select>
+        <div id="table-details">
+            <!-- Table details will be displayed here -->
+        </div>
     </div>
 
-    <div id="table-details">
-        <!-- Table details will be displayed here -->
-    </div>
 </div>
 </body>
 </html>

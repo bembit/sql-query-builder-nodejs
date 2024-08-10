@@ -52,9 +52,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateQuery() {
-        const columns = Array.from(columnSelect.selectedOptions).map(option => option.value).join(', ') || '*';
+        const tableAlias = document.getElementById('table-alias').value.trim();
+        const selectedTable = queryParts.from;
+        const columns = Array.from(columnSelect.selectedOptions).map(option => {
+            // Prefix column with alias if provided
+            return tableAlias ? `${tableAlias}.${option.value}` : option.value;
+        }).join(', ') || '*';
+    
         queryParts.select = columns;
-        let query = `SELECT ${queryParts.select} FROM ${queryParts.from}`;
+    
+        let query = `SELECT ${queryParts.select} FROM ${selectedTable}`;
+        if (tableAlias) {
+            query += ` AS ${tableAlias}`;
+        }
+    
         if (queryParts.joins.length > 0) {
             query += ' ' + queryParts.joins.join(' ');
         }
@@ -64,8 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (queryParts.conditions.length > 0) {
             query += ' ' + queryParts.conditions.join(' AND ');
         }
+    
         queryOutput.textContent = query;
     }
+    
 
     function handleInputChange() {
         queryParts.joins = Array.from(joinInputs.querySelectorAll('.query-section')).map(div => {
@@ -146,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function runQuery() {
         const query = queryOutput.textContent;
-        saveQueryToLocalStorage();
         fetch('/api/query', {
             method: 'POST',
             headers: {
@@ -157,25 +169,49 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             queryResults.textContent = JSON.stringify(data.rows, null, 2);
+            saveQueryToLocalStorage();
         })
         .catch(error => console.error('Error running query:', error));
     }
 
     // will create new sql table for previous queries so we can load them later
+    // function saveQueryToLocalStorage() {
+    //     const query = queryOutput.textContent;
+    //     localStorage.setItem('query', query);
+    // }
+
+    // save last 1000 queries to localStorage
     function saveQueryToLocalStorage() {
         const query = queryOutput.textContent;
-        localStorage.setItem('query', query);
+        
+        // Retrieve the existing queries from localStorage
+        let queries = JSON.parse(localStorage.getItem('queries')) || [];
+        
+        // Add the new query to the beginning of the array
+        queries.unshift(query);
+        
+        // If there are more than 1000 queries, remove the oldest one
+        if (queries.length > 1000) {
+            queries.pop();
+        }
+        
+        // Save the updated array back to localStorage
+        localStorage.setItem('queries', JSON.stringify(queries));
     }
+    
 
     tableSelect.addEventListener('change', (event) => {
         const table = event.target.value;
         queryParts.from = table;
+        document.getElementById('table-alias').value = ''; // Reset alias input on table change
         populateColumnSelect(table);
         updateQuery();
     });
 
-    columnSelect.addEventListener('change', updateQuery);
 
+    columnSelect.addEventListener('change', updateQuery);
+    
+    document.getElementById('table-alias').addEventListener('input', updateQuery);
     document.getElementById('add-join').addEventListener('click', addJoin);
     document.getElementById('add-where').addEventListener('click', addWhere);
     document.getElementById('add-condition').addEventListener('click', addCondition);

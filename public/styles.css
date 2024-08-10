@@ -88,9 +88,13 @@ body {
     overflow-y: auto;
 }
 
+.table-container {
+    margin: 20px auto;
+    max-width: 900px;
+}
+
 /* Additional styling for table details and results section */
 #table-select, #table-details, #results {
-    margin-top: 20px;
 }
 
 #table-details, #results {

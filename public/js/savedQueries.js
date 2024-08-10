@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Open modal
     openQueryModalButton.addEventListener('click', () => {
         queryModal.style.display = 'block';
-        displayQueries(currentPage, queryOutput);
+        displayQueries(currentPage, queryOutput, ''); // Initialize with empty search term
     });
 
     // Close modal
@@ -50,14 +50,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Display Queries with Pagination
-    function displayQueries(page, queryOutput) {
+    function displayQueries(page, queryOutput, searchTerm = '') {
         const savedQueries = JSON.parse(localStorage.getItem('queries')) || [];
         queryList.innerHTML = ''; // Clear the list
-
+    
+        // Filter queries based on search term
+        const filteredQueries = savedQueries.filter(query =>
+            query.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    
         const start = (page - 1) * queriesPerPage;
         const end = start + queriesPerPage;
-        const paginatedQueries = savedQueries.slice(start, end);
-
+        const paginatedQueries = filteredQueries.slice(start, end);
+    
         paginatedQueries.forEach((query, index) => {
             const queryItem = document.createElement('div');
             queryItem.classList.add('query-item');
@@ -69,13 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             queryList.appendChild(queryItem);
         });
-
+    
         // Update pagination info
-        const totalPages = Math.ceil(savedQueries.length / queriesPerPage);
+        const totalPages = Math.ceil(filteredQueries.length / queriesPerPage);
         pageInfo.textContent = `Page ${page} of ${totalPages}`;
-
+    
         // Disable/Enable buttons based on page position
         prevPageButton.disabled = page === 1;
         nextPageButton.disabled = page === totalPages;
     }
+    
+    document.getElementById('search-query').addEventListener('input', (event) => {
+        const searchTerm = event.target.value;
+        currentPage = 1; // Reset to first page on new search
+        displayQueries(currentPage, queryOutput, searchTerm);
+    });
+    
 });

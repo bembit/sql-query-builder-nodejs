@@ -6,29 +6,12 @@
     <title>SQL Query Builder Test</title>
     <link rel="stylesheet" href="styles.css">
     <script src="js/queryBuilder.js"></script>
-    <script src="main.js" defer></script>
     <script src="js/savedQueries.js"></script>
+    <script src="js/tableInspect.js"></script>
+    <script src="main.js" defer></script>
 </head>
 <body>
-    <div class="query-builder">
-         <!-- Button to open modal -->
-        <button id="open-query-modal">View Saved Queries</button>
-
-        <!-- Modal Structure -->
-        <div id="query-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Saved Queries</h2>
-                <input type="text" id="search-query" placeholder="Search queries...">
-                <div id="query-list"></div>
-                <div id="pagination-controls">
-                    <button id="prev-page">Previous</button>
-                    <span id="page-info"></span>
-                    <button id="next-page">Next</button>
-                </div>
-            </div>
-        </div>
-        
+    <div class="query-builder">        
         <!-- table select -->
         <div class="query-section">
             <label for="select-table">FROM Table:</label>
@@ -68,12 +51,29 @@
 
         <div class="query-section">
             <button id="run-query">Run Query</button>
+                     <!-- Button to open modal -->
+        <button id="open-query-modal">View Saved Queries</button>
         </div>
 
         <div class="query-section">
             <h3>Query Results:</h3>
             <pre id="query-results">
             </pre>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="query-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Saved Queries</h2>
+            <input type="text" id="search-query" placeholder="Search queries...">
+            <div id="query-list"></div>
+            <div id="pagination-controls">
+                <button id="prev-page">Previous</button>
+                <span id="page-info"></span>
+                <button id="next-page">Next</button>
+            </div>
         </div>
     </div>
 

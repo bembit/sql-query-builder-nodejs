@@ -1,5 +1,14 @@
 ### TEST; SQL Query Builder / table analyser in Node.js / vanilla
 
+### The main idea would be to connect it to any sql database and do stuff with it.
+
+- definitely sounded easier in concept than it actually is while building it.
+- good for a demo, or a tool to help people learn sql. would rewrite in typescript / react or something.
+- has some python scripts to create a database and populate it with data.
+
+<img src="./landing.jpg" width="65%" />
+<img src="./landing2.jpg" width="65%" />
+
 ### done
 - resolve initial selected table not showing columns
 - added user options and confirmation dialog

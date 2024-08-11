@@ -24,56 +24,50 @@
         </nav>
     </header>
     <main>
-        <div class="query-builder wrapper">        
+        <div class="query-builder wrapper">
             <!-- table select -->
             <div class="query-section">
                 <label for="select-table">FROM Table:</label>
-                <select id="select-table">
-                </select>
-    
+                <select id="select-table"></select>
+        
                 <label for="table-alias">Alias:</label>
                 <input type="text" id="table-alias" placeholder="Alias (optional)">
             </div>
-    
+        
             <div class="query-section">
-                <label for="select-columns">Select * Columns:</label>
-                <select id="select-columns" multiple>
-                </select>
+                <label for="select-columns">Select Columns:</label>
+                <select id="select-columns" multiple></select>
             </div>
-    
+        
             <div class="query-section">
                 <button id="add-join">Add JOIN</button>
                 <button id="add-where">Add WHERE</button>
                 <button id="add-condition">Add Condition</button>
             </div>
-    
-            <div class="query-section" id="join-inputs">
-            </div>
-    
-            <div class="query-section" id="where-inputs">
-            </div>
-    
-            <div class="query-section" id="condition-inputs">
-            </div>
-    
+        
+            <!-- This section will hold all the join inputs and their corresponding column selectors -->
+            <div class="query-section" id="join-inputs"></div>
+        
+            <div class="query-section" id="where-inputs"></div>
+        
+            <div class="query-section" id="condition-inputs"></div>
+        
             <div class="query-section">
                 <h3>Constructed Query:</h3>
-                <div id="query-output">
-                </div>
+                <div id="query-output"></div>
             </div>
-    
+        
             <div class="query-section">
                 <button id="run-query">Run Query</button>
-                         <!-- Button to open modal -->
+                <!-- Button to open modal -->
             </div>
-    
+        
             <!-- pre copy or export to csv -->
             <div class="query-section">
                 <h3>Query Results:</h3>
-                <pre id="query-results">
-                </pre>
+                <pre id="query-results"></pre>
             </div>
-
+        
             <p>- saves query to localstorage on Run Query</p>
             <p>- access query history from top navigation "view saved queries"</p>
         </div>

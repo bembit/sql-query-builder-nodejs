@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(schemaData => {
                 console.log('Database Schema:', schemaData);
     
-                const tableSelect = document.getElementById('select-table');
                 tableSelect.innerHTML = ''; 
     
                 Object.keys(schemaData).forEach(table => {
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tableSelect.appendChild(option);
                 });
     
-                window.schema = schemaData;
+                schema = schemaData;
     
                 // Select the first table by default and populate its columns
                 const firstTable = tableSelect.options[0]?.value;
@@ -47,17 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Error fetching schema:', error));
     }
 
-    function populateColumnSelect(table) {
-        const columnSelect = document.getElementById('select-columns');
-        columnSelect.innerHTML = ''; 
+    function populateColumnSelect(table, selectElement = columnSelect) {
+        selectElement.innerHTML = ''; 
 
-        if (table && window.schema[table]) {
-            const columns = window.schema[table];
+        if (table && schema[table]) {
+            const columns = schema[table];
             columns.forEach(column => {
                 const option = document.createElement('option');
                 option.value = column.name;
                 option.textContent = column.name;
-                columnSelect.appendChild(option);
+                selectElement.appendChild(option);
             });
         }
     }
@@ -65,37 +63,55 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateQuery() {
         const tableAlias = document.getElementById('table-alias').value.trim();
         const selectedTable = queryParts.from;
-        const columns = Array.from(columnSelect.selectedOptions).map(option => {
-            // Prefix column with alias if provided
+        
+        // Get columns from the main table
+        const mainTableColumns = Array.from(columnSelect.selectedOptions).map(option => {
             return tableAlias ? `${tableAlias}.${option.value}` : option.value;
-        }).join(', ') || '*';
-    
-        queryParts.select = columns;
-    
-        let query = `SELECT ${queryParts.select} FROM ${selectedTable}`;
+        });
+
+        // Initialize queryParts.select with columns from the main table
+        queryParts.select = [...mainTableColumns];
+
+        // Add columns from each join table
+        document.querySelectorAll('.join-columns').forEach(select => {
+            const joinTableColumns = Array.from(select.selectedOptions).map(option => option.value);
+            const joinTableName = select.closest('.query-section').querySelector('input[placeholder="Join Table"]').value;
+            const joinTableAlias = select.closest('.query-section').querySelector('input[placeholder="Join Alias"]').value || joinTableName;
+            queryParts.select.push(...joinTableColumns.map(column => `${joinTableAlias}.${column}`));
+        });
+
+        // Construct the query
+        let query = `SELECT ${queryParts.select.length > 0 ? queryParts.select.join(', ') : '*'}`;
+        query += ` FROM ${selectedTable}`;
         if (tableAlias) {
             query += ` AS ${tableAlias}`;
         }
-    
+
+        // Add JOIN clauses
         if (queryParts.joins.length > 0) {
             query += ' ' + queryParts.joins.join(' ');
         }
+
+        // Add WHERE clauses
         if (queryParts.where.length > 0) {
             query += ' WHERE ' + queryParts.where.join(' AND ');
         }
+
+        // Add additional conditions
         if (queryParts.conditions.length > 0) {
             query += ' ' + queryParts.conditions.join(' AND ');
         }
-    
+
+        // Update the output
         queryOutput.textContent = query;
     }
-    
 
     function handleInputChange() {
         queryParts.joins = Array.from(joinInputs.querySelectorAll('.query-section')).map(div => {
             const table = div.querySelector('input[placeholder="Join Table"]').value;
+            const alias = div.querySelector('input[placeholder="Join Alias"]').value;
             const condition = div.querySelector('input[placeholder="Join Condition"]').value;
-            return table && condition ? `JOIN ${table} ON ${condition}` : '';
+            return table && condition ? `JOIN ${table} AS ${alias} ON ${condition}` : '';
         }).filter(join => join.trim() !== '');
 
         queryParts.where = Array.from(whereInputs.querySelectorAll('.query-section')).map(div => {
@@ -116,17 +132,32 @@ document.addEventListener('DOMContentLoaded', () => {
         joinDiv.className = 'query-section';
         joinDiv.innerHTML = `
             <input type="text" placeholder="Join Table">
+            <input type="text" placeholder="Join Alias">
             <input type="text" placeholder="Join Condition">
             <button class="remove-button">Remove</button>
+            <div class="join-columns-container">
+                <label for="join-columns">Select Columns:</label>
+                <select class="join-columns" multiple>
+                </select>
+            </div>
         `;
         joinInputs.appendChild(joinDiv);
 
         joinDiv.querySelectorAll('input').forEach(input => {
             input.addEventListener('input', handleInputChange);
         });
+
         joinDiv.querySelector('.remove-button').addEventListener('click', () => {
             joinInputs.removeChild(joinDiv);
             handleInputChange();
+        });
+
+        // Populate columns for the new join table
+        const joinTableSelect = joinDiv.querySelector('input[placeholder="Join Table"]');
+        joinTableSelect.addEventListener('change', (event) => {
+            const table = event.target.value;
+            const joinColumnSelect = joinDiv.querySelector('.join-columns');
+            populateColumnSelect(table, joinColumnSelect);
         });
 
         updateQuery();

@@ -7,7 +7,7 @@ const app = express();
 console.log(typeof queryRoutes);
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', routes);
 

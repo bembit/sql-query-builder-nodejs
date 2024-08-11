@@ -1,4 +1,4 @@
-import { ConfirmationDialog } from './confirmationDialogue.js'; // Adjust path as necessary
+import { ConfirmationDialog } from './confirmationDialogue.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const queryModal = document.getElementById('query-modal');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Open modal
     openQueryModalButton.addEventListener('click', () => {
-        queryModal.style.display = 'block';
+        queryModal.style.display = 'flex';
         displayQueries(currentPage, queryOutput, ''); // Initialize with empty search term
     });
 
@@ -78,11 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const queryItem = document.createElement('div');
             queryItem.classList.add('query-item');
             queryItem.innerHTML = `
-                <span>${query.text}</span>
-                <button disabled class="load-query" data-id="${query.id}">Load</button>
-                <button class="delete-query" data-id="${query.id}">Delete</button>
-                <button class="run-query" data-id="${query.id}">Run</button>
-                <button class="export-query" data-id="${query.id}">Export CSV</button>
+                <div class="query-text">${query.text}</div>
+                <div class="query-buttons">
+                    <button class="history-btn run-query" data-id="${query.id}">Run</button>
+                    <button class="history-btn export-query" data-id="${query.id}">Export CSV</button>
+                    <button disabled class="history-btn load-query" data-id="${query.id}">Load</button>
+                    <button class="history-btn delete-query" data-id="${query.id}">Delete</button>
+                </div>
             `;
     
             queryItem.querySelector('.load-query').addEventListener('click', (event) => {
@@ -162,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function exportToCSV(queryText) {
         // Placeholder function for exporting query results to CSV
         console.log('Exporting to CSV:', queryText);
-        // Implement actual CSV export logic here
     }
 
     document.getElementById('search-query').addEventListener('input', (event) => {

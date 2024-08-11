@@ -1,5 +1,3 @@
-// confirmationDialog.js
-
 export class ConfirmationDialog {
     constructor(dialogId, confirmButtonId, cancelButtonId, closeButtonSelector) {
         this.confirmationDialog = document.getElementById(dialogId);
@@ -9,7 +7,6 @@ export class ConfirmationDialog {
         this.currentDeleteId = null;
         this.onConfirm = null;
 
-        // Initialize event listeners
         this.initEventListeners();
     }
 

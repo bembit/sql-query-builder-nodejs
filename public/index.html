@@ -12,60 +12,87 @@
     <script src="main.js" defer></script>
 </head>
 <body>
-    <div class="query-builder">        
-        <!-- table select -->
-        <div class="query-section">
-            <label for="select-table">FROM Table:</label>
-            <select id="select-table">
-            </select>
+    <header>
+        <h1>SQL Query Builder</h1>
+        <nav>
+            <ul>
+                <button id="open-query-modal" class="btn">View Saved Queries</button>
+                <!-- <li><a href="#saved-queries">Saved Queries</a></li> -->
+                <!-- <li><a href="#table-analyser">Table Analyser</a></li> -->
+                <!-- <li><a href="#query-builder">Query Builder</a></li> -->
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="query-builder wrapper">        
+            <!-- table select -->
+            <div class="query-section">
+                <label for="select-table">FROM Table:</label>
+                <select id="select-table">
+                </select>
+    
+                <label for="table-alias">Alias:</label>
+                <input type="text" id="table-alias" placeholder="Alias (optional)">
+            </div>
+    
+            <div class="query-section">
+                <label for="select-columns">Select * Columns:</label>
+                <select id="select-columns" multiple>
+                </select>
+            </div>
+    
+            <div class="query-section">
+                <button id="add-join">Add JOIN</button>
+                <button id="add-where">Add WHERE</button>
+                <button id="add-condition">Add Condition</button>
+            </div>
+    
+            <div class="query-section" id="join-inputs">
+            </div>
+    
+            <div class="query-section" id="where-inputs">
+            </div>
+    
+            <div class="query-section" id="condition-inputs">
+            </div>
+    
+            <div class="query-section">
+                <h3>Constructed Query:</h3>
+                <div id="query-output">
+                </div>
+            </div>
+    
+            <div class="query-section">
+                <button id="run-query">Run Query</button>
+                         <!-- Button to open modal -->
+            </div>
+    
+            <!-- pre copy or export to csv -->
+            <div class="query-section">
+                <h3>Query Results:</h3>
+                <pre id="query-results">
+                </pre>
+            </div>
 
-            <label for="table-alias">Alias:</label>
-            <input type="text" id="table-alias" placeholder="Alias (optional)">
+            <p>- saves query to localstorage on Run Query</p>
+            <p>- access query history from top navigation "view saved queries"</p>
         </div>
 
-        <div class="query-section">
-            <label for="select-columns">Select * Columns:</label>
-            <select id="select-columns" multiple>
-            </select>
-        </div>
+        <div class="table-container wrapper">
 
-        <div class="query-section">
-            <button id="add-join">Add JOIN</button>
-            <button id="add-where">Add WHERE</button>
-            <button id="add-condition">Add Condition</button>
-        </div>
-
-        <div class="query-section" id="join-inputs">
-        </div>
-
-        <div class="query-section" id="where-inputs">
-        </div>
-
-        <div class="query-section" id="condition-inputs">
-        </div>
-
-        <div class="query-section">
-            <h3>Constructed Query:</h3>
-            <div id="query-output">
+            <h2>Table / Schema helper</h2>
+            <button type="button" onclick="populateTableSelect()">Populate Tables</button>
+            <label for="table-select">Select Table:</label>
+            <select id="table-select" onchange="displayTableDetails()"></select>
+            <div id="table-details">
+                <!-- Table details will be displayed here -->
             </div>
         </div>
-
-        <div class="query-section">
-            <button id="run-query">Run Query</button>
-                     <!-- Button to open modal -->
-        <button id="open-query-modal">View Saved Queries</button>
-        </div>
-
-        <div class="query-section">
-            <h3>Query Results:</h3>
-            <pre id="query-results">
-            </pre>
-        </div>
-    </div>
+    </main>
 
     <!-- Modal Structure -->
     <div id="query-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content wrapper">
             <span class="close">&times;</span>
             <h2>Saved Queries</h2>
             <input type="text" id="search-query" placeholder="Search queries...">
@@ -87,17 +114,6 @@
                 <button id="cancel-delete" class="cancel-button">No</button>
                 <span class="close">&times;</span>
             </div>
-        </div>
-    </div>
-
-    
-    <div class="table-container">
-        <button type="button" onclick="populateTableSelect()">Populate Table Select</button>
-        <h2>Tables</h2>
-        <label for="table-select">Select Table:</label>
-        <select id="table-select" onchange="displayTableDetails()"></select>
-        <div id="table-details">
-            <!-- Table details will be displayed here -->
         </div>
     </div>
 

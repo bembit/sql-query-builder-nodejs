@@ -6,7 +6,8 @@
     <title>SQL Query Builder Test</title>
     <link rel="stylesheet" href="styles.css">
     <script src="js/queryBuilder.js"></script>
-    <script src="js/savedQueries.js"></script>
+    <script src="js/savedQueries.js" type="module"></script>
+    <script src="js/confirmationDialogue.js" type="module"></script>
     <script src="js/tableInspect.js"></script>
     <script src="main.js" defer></script>
 </head>
@@ -77,15 +78,18 @@
         </div>
     </div>
 
-    <!-- <h2>Query Results</h2>
-    <pre id="results"></pre> -->
+    <!-- Confirmation Dialog -->
+    <div id="confirmation-dialog" class="confirmation-dialog">
+        <div class="confirmation-dialog-content">
+            <span id="confirmation-message" class="confirmation-message"></span>
+            <div class="confirmation-buttons">
+                <button id="confirm-delete" class="confirm-button">Yes</button>
+                <button id="cancel-delete" class="cancel-button">No</button>
+                <span class="close">&times;</span>
+            </div>
+        </div>
+    </div>
 
-    <!-- <button type="button" onclick="populateTableSelect()">Populate Table Select</button>
-    <h2>Tables</h2>
-    <label for="table-select">Select Table:</label>
-    <select id="table-select" onchange="displayTableDetails()"></select>
-    <div id="table-details">
-    </div> -->
     
     <div class="table-container">
         <button type="button" onclick="populateTableSelect()">Populate Table Select</button>

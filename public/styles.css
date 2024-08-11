@@ -49,6 +49,23 @@ button {
     font-size: 14px;
 }
 
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.load-query {
+    background-color: #007bff;
+}
+
+.delete-query {
+    background-color: #dc3545;
+}
+
+.run-query {
+    background-color: #00b318;
+}
+
 .query-section button:hover {
     background-color: #0056b3;
 }
@@ -184,11 +201,74 @@ button {
 .query-item {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .query-item:hover {
-    background-color: #f0f0f0;
+    background-color: #4b0808;
 }
 
+/*  */
+/* Confirmation Dialog Styles */
+.confirmation-dialog {
+    display: none;
+    position: fixed;
+    z-index: 2; /* Ensure it's above other modals */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly darker backdrop */
+}
+
+.confirmation-dialog-content {
+    background-color: #ffffff; /* White background for better contrast */
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    width: 80%;
+    max-width: 400px;
+    position: relative;
+}
+
+.confirmation-dialog .close {
+    color: #aaa;
+    float: right;
+    font-size: 24px; /* Slightly smaller for consistency */
+    font-weight: bold;
+}
+
+.confirmation-dialog .close:hover,
+.confirmation-dialog .close:focus {
+    color: rgb(175, 7, 7);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.confirmation-message {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.confirmation-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.confirmation-buttons button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.confirmation-buttons .confirm-button {
+    background-color: #d9534f; /* Bootstrap danger color */
+    color: white;
+}
+
+.confirmation-buttons .cancel-button {
+    background-color: #5bc0de; /* Bootstrap info color */
+    color: white;
+}

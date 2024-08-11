@@ -32,6 +32,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
     
                 window.schema = schemaData;
+    
+                // Select the first table by default and populate its columns
+                const firstTable = tableSelect.options[0]?.value;
+                if (firstTable) {
+                    tableSelect.value = firstTable; // Set the dropdown to the first table
+                    queryParts.from = firstTable; // Set the default table in query parts
+                    populateColumnSelect(firstTable); // Populate columns for the first table
+                    updateQuery(); // Update the query output
+                }
             })
             .catch(error => console.error('Error fetching schema:', error));
     }
@@ -174,31 +183,30 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error running query:', error));
     }
 
-    // will create new sql table for previous queries so we can load them later
-    // function saveQueryToLocalStorage() {
-    //     const query = queryOutput.textContent;
-    //     localStorage.setItem('query', query);
-    // }
+    // Function to generate a unique ID
+    function generateUniqueId() {
+        return '_' + Math.random().toString(36).substr(2, 9);
+    }
 
-    // save last 1000 queries to localStorage
+    // Save query to localStorage with unique ID
     function saveQueryToLocalStorage() {
-        const query = queryOutput.textContent;
-        
+        const queryText = queryOutput.textContent;
+        const queryId = generateUniqueId(); // Generate a unique ID for the query
+
         // Retrieve the existing queries from localStorage
         let queries = JSON.parse(localStorage.getItem('queries')) || [];
-        
-        // Add the new query to the beginning of the array
-        queries.unshift(query);
-        
+
+        // Add the new query as an object with ID and text
+        queries.unshift({ id: queryId, text: queryText });
+
         // If there are more than 1000 queries, remove the oldest one
         if (queries.length > 1000) {
             queries.pop();
         }
-        
+
         // Save the updated array back to localStorage
         localStorage.setItem('queries', JSON.stringify(queries));
     }
-    
 
     tableSelect.addEventListener('change', (event) => {
         const table = event.target.value;

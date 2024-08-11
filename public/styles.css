@@ -1,49 +1,82 @@
-/* General body and font styles */
-body {
-    font-family: Arial, sans-serif;
+/* general and resets */
+
+:root {
+    --bg-color: #000A15;
+}
+
+*, ::before, ::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #2b2b2b;
-    color: #fff;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.load {
+    display: none;
 }
 
-/* Container for the query builder */
-.query-builder {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #1b1b1b;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Styling for each query section */
-.query-section {
-    margin-bottom: 15px;
-}
-
-/* Styling for labels */
-.query-section label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-/* Styling for select dropdowns */
-.query-section select {
+body {
+    font-family: "Mulish", sans-serif;
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    color: #fff;
+    background-color: var(--bg-color);
 }
 
-/* Styling for buttons */
+a, a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header {
+    display: flex;
+    background-color: var(--bg-color-blue);
+    flex-direction: row;
+    padding: 0 15%;
+    justify-content: center;
+    align-items: center;
+}
+
+nav {
+    width: 100%;
+    color: #FFF;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 1000;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    min-height: 95vh;
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 1% 15% 5% 15%;
+}
+
+main .wrapper:not(:last-child) {
+  margin-right: 20px;
+}
+
 button {
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
     color: #fff;
-    background-color: #007bff;
+    background-color: #8619e0;
     cursor: pointer;
     margin-right: 10px;
     font-size: 14px;
@@ -66,8 +99,58 @@ button:disabled {
     background-color: #00b318;
 }
 
-.query-section button:hover {
+button:hover {
     background-color: #0056b3;
+}
+
+.history-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.query-builder {
+    flex-basis: 65%;
+    min-width: 800px;
+    max-width: 800px;
+    padding: 20px;
+    background: #000000;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 2px solid rgba(79, 225, 149, 0.25);
+    background-image: linear-gradient(180deg, #4fe1952a 0%, #63c2eb2d 35%, #5bcfc738 70%, #4fe19536 100%);
+    padding: 25px 25px;
+    border-radius: 25px;
+    margin-top: 35px;
+}
+
+.query-section {
+    margin-bottom: 15px;
+}
+
+/* Styling for labels */
+.query-section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Styling for select dropdowns */
+.query-section select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 /* Styling for inputs within query sections */
@@ -87,7 +170,6 @@ button:disabled {
     background-color: #c82333;
 }
 
-/* Styling for query output and results */
 .query-section h3 {
     margin-top: 0;
 }
@@ -96,8 +178,7 @@ button:disabled {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    /* background-color: #f9f9f9; */
-    white-space: pre-wrap; /* Preserves whitespace and line breaks */
+    white-space: pre-wrap; 
     font-family: monospace;
 }
 
@@ -107,12 +188,7 @@ button:disabled {
 }
 
 .table-container {
-    margin: 20px auto;
-    max-width: 900px;
-}
-
-/* Additional styling for table details and results section */
-#table-select, #table-details, #results {
+    flex-basis: 35%;
 }
 
 #table-details, #results {
@@ -122,8 +198,6 @@ button:disabled {
     background-color: #5f2a2a;
 }
 
-
-/* Styles for table details */
 #table-details {
     margin-top: 20px;
 }
@@ -163,16 +237,19 @@ button:disabled {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.65);
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
+    display: flex;
     background-color: #000000;
-    margin: 15% auto;
+    margin: 0 auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
+    width: 70%;
+    height: 80%;
     position: relative;
 }
 
@@ -197,8 +274,22 @@ button:disabled {
     margin-top: 20px;
 }
 
+.query-text {
+    flex-basis: 70%;
+}
+
+.query-buttons { 
+    display: flex;
+    flex-direction: row;
+    flex-basis: 30%;
+    justify-content: flex-end;
+}
+
 /* Style for each query item */
 .query-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid #ddd;
     transition: background-color 0.3s;
@@ -208,22 +299,22 @@ button:disabled {
     background-color: #4b0808;
 }
 
-/*  */
 /* Confirmation Dialog Styles */
 .confirmation-dialog {
     display: none;
     position: fixed;
-    z-index: 2; /* Ensure it's above other modals */
+    z-index: 2;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* Slightly darker backdrop */
+    background-color: rgba(0, 0, 0, 0.5); 
 }
 
 .confirmation-dialog-content {
-    background-color: #ffffff; /* White background for better contrast */
+    background-color: #ffffff; 
+    color: black;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -235,7 +326,7 @@ button:disabled {
 .confirmation-dialog .close {
     color: #aaa;
     float: right;
-    font-size: 24px; /* Slightly smaller for consistency */
+    font-size: 24px; 
     font-weight: bold;
 }
 
@@ -264,11 +355,15 @@ button:disabled {
 }
 
 .confirmation-buttons .confirm-button {
-    background-color: #d9534f; /* Bootstrap danger color */
-    color: white;
+    background-color: #d9534f;
+    color: black;
 }
 
 .confirmation-buttons .cancel-button {
-    background-color: #5bc0de; /* Bootstrap info color */
-    color: white;
+    background-color: #5bc0de;
+    color: black;
+}
+
+#select-columns {
+    min-height: 250px;
 }

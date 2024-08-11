@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const joinInputs = document.getElementById('join-inputs');
     const whereInputs = document.getElementById('where-inputs');
     const conditionInputs = document.getElementById('condition-inputs');
+    
     let queryParts = {
         select: '*',
         from: '',
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         where: [],
         conditions: []
     };
+
     let schema = {};
 
     function populateTableSelect() {
@@ -22,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Database Schema:', schemaData);
     
                 const tableSelect = document.getElementById('select-table');
-                tableSelect.innerHTML = ''; // Clear existing options
+                tableSelect.innerHTML = ''; 
     
                 Object.keys(schemaData).forEach(table => {
                     const option = document.createElement('option');
@@ -39,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tableSelect.value = firstTable; // Set the dropdown to the first table
                     queryParts.from = firstTable; // Set the default table in query parts
                     populateColumnSelect(firstTable); // Populate columns for the first table
-                    updateQuery(); // Update the query output
+                    updateQuery();
                 }
             })
             .catch(error => console.error('Error fetching schema:', error));
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateColumnSelect(table) {
         const columnSelect = document.getElementById('select-columns');
-        columnSelect.innerHTML = ''; // Clear existing options
+        columnSelect.innerHTML = ''; 
 
         if (table && window.schema[table]) {
             const columns = window.schema[table];
@@ -191,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save query to localStorage with unique ID
     function saveQueryToLocalStorage() {
         const queryText = queryOutput.textContent;
-        const queryId = generateUniqueId(); // Generate a unique ID for the query
+        const queryId = generateUniqueId();
 
         // Retrieve the existing queries from localStorage
         let queries = JSON.parse(localStorage.getItem('queries')) || [];
@@ -215,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
         populateColumnSelect(table);
         updateQuery();
     });
-
 
     columnSelect.addEventListener('change', updateQuery);
     

@@ -108,10 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleInputChange() {
         queryParts.joins = Array.from(joinInputs.querySelectorAll('.query-section')).map(div => {
+            const joinType = div.querySelector('select[placeholder="Join Type"]').value;
             const table = div.querySelector('input[placeholder="Join Table"]').value;
             const alias = div.querySelector('input[placeholder="Join Alias"]').value;
             const condition = div.querySelector('input[placeholder="Join Condition"]').value;
-            return table && condition ? `JOIN ${table} AS ${alias} ON ${condition}` : '';
+            return table && condition ? `${joinType} ${table} AS ${alias} ON ${condition}` : '';
         }).filter(join => join.trim() !== '');
 
         queryParts.where = Array.from(whereInputs.querySelectorAll('.query-section')).map(div => {
@@ -131,6 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const joinDiv = document.createElement('div');
         joinDiv.className = 'query-section';
         joinDiv.innerHTML = `
+            <select placeholder="Join Type">
+                <option value="INNER JOIN">INNER JOIN</option>
+                <option value="LEFT JOIN">LEFT JOIN</option>
+                <option value="RIGHT JOIN">RIGHT JOIN</option>
+                <option value="FULL JOIN">FULL JOIN</option>
+            </select>
             <input type="text" placeholder="Join Table">
             <input type="text" placeholder="Join Alias">
             <input type="text" placeholder="Join Condition">
@@ -146,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         joinDiv.querySelectorAll('input').forEach(input => {
             input.addEventListener('input', handleInputChange);
         });
-
+        joinDiv.querySelector('select').addEventListener('change', handleInputChange);
         joinDiv.querySelector('.remove-button').addEventListener('click', () => {
             joinInputs.removeChild(joinDiv);
             handleInputChange();

@@ -17,6 +17,7 @@
 
 - add DISTINCT toggle
 - add COUNT(*) toggle
+- can add limit
 
 - add option to select columns from joined tables ...
 

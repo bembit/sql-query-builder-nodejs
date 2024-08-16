@@ -89,9 +89,18 @@
         <div class="modal-content wrapper">
             <span class="close">&times;</span>
             <div id="pagination-controls">
-                <button id="prev-page">Previous</button>
-                <span id="page-info"></span>
-                <button id="next-page">Next</button>
+                <div>
+                    <button id="prev-page">Previous</button>
+                    <span id="page-info"></span>
+                    <button id="next-page">Next</button>
+                </div>
+                
+                <div id="localstorage-info"></div>
+
+                <div>
+                    <button id="export-all-queries">Export All Queries to CSV</button>
+                    <button id="clear-localstorage" class="delete-query">Clear LocalStorage</button>
+                </div>
             </div>
             <h2>Saved Queries</h2>
             <input type="text" id="search-query" placeholder="Search queries...">

@@ -9,7 +9,14 @@
 <img src="./landing.jpg" width="65%" />
 <img src="./landing2.jpg" width="65%" />
 
-### done
+- add more db tests? mariadb, postgres, sqlite.
+/database/mariadb/createSchemas.sql
+/database/postgres/createSchemas.sql
+/database/sqlite/createSchemas.sql
+
+- write some gpt queries to test joins
+
+### notes
 - resolve initial selected table not showing columns
 - added user options and confirmation dialog
 

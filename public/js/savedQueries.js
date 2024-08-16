@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
             queryItem.innerHTML = `
                 <div class="query-text">${query.text}</div>
                 <div class="query-buttons">
-                    <button class="history-btn run-query" data-id="${query.id}">Run</button>
-                    <button class="history-btn export-query" data-id="${query.id}">Export CSV</button>
+                    <button class="history-btn run-query" data-id="${query.id}">Run Query</button>
+                    <button class="history-btn export-query" data-id="${query.id}">Export Query to CSV</button>
                     <button disabled class="history-btn load-query" data-id="${query.id}">Load</button>
                     <button class="history-btn delete-query" data-id="${query.id}">Delete</button>
                 </div>
@@ -222,17 +222,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Confirmation before clearing all queries
     document.getElementById('clear-localstorage').addEventListener('click', () => {
+        console.log('Clear LocalStorage button clicked');
         confirmationDialog.showConfirmationDialog(
             'Are you sure you want to clear all saved queries? This action cannot be undone.',
             null, // No specific ID needed for clearing all
             () => {
-                localStorage.clear();
+                localStorage.removeItem('queries');
                 alert('All saved queries have been cleared.');
-                displayQueries(currentPage, queryOutput); // Refresh the display
+                displayQueries(currentPage, queryOutput); 
             }
         );
     });
 
     // Attach event listeners to new buttons
     document.getElementById('export-all-queries').addEventListener('click', exportAllQueriesToCSV);
+
+
+    // Reference to import button and file input
+    const importButton = document.getElementById('import-queries');
+    const fileInput = document.getElementById('csv-file-input');
+
+    // Event listener for the Import button
+    importButton.addEventListener('click', () => {
+        fileInput.click(); // Trigger file input when button is clicked
+    });
+
+    // Event listener for file input change (when a file is selected)
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const csvContent = e.target.result;
+                importQueriesFromCSV(csvContent);
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    // Function to parse CSV and import queries into LocalStorage
+    function importQueriesFromCSV(csvContent) {
+        const rows = csvContent.split('\n').slice(1); // Skip the header row
+        const queries = [];
+    
+        rows.forEach(row => {
+            // Use a regular expression to correctly parse the CSV, handling commas within quotes
+            const match = row.match(/^(?<id>[^,]+),(?<text>".+"|[^,]+)$/);
+            if (match) {
+                const { id, text } = match.groups;
+                // Remove the quotes from the query text if present
+                const cleanedText = text.startsWith('"') ? text.slice(1, -1) : text;
+                queries.push({ id, text: cleanedText });
+            }
+        });
+    
+        // Add the parsed queries to localStorage
+        const existingQueries = JSON.parse(localStorage.getItem('queries')) || [];
+        localStorage.setItem('queries', JSON.stringify([...existingQueries, ...queries]));
+    
+        alert('Queries imported successfully!');
+        displayQueries(currentPage, queryOutput); // Refresh the display
+    }
+    
 });

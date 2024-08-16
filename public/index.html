@@ -56,6 +56,11 @@
                 <h3>Constructed Query:</h3>
                 <div id="query-output"></div>
             </div>
+            
+            <div class="query-section">
+                <label for="query-comment">Comment to save (optional):</label>
+                <input type="text" id="query-comment">
+            </div>
         
             <div class="query-section">
                 <button id="run-query">Run Query</button>
@@ -66,6 +71,11 @@
             <div class="query-section">
                 <h3>Query Results:</h3>
                 <pre id="query-results"></pre>
+            </div>
+
+            <div class="query-section">
+                <button id="export-results" style="display: none;">Export Results to CSV</button>
+                <!-- Button to open modal -->
             </div>
         
             <p>- saves query to localstorage on Run Query</p>

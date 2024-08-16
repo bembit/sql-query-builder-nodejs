@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevPageButton = document.getElementById('prev-page');
     const nextPageButton = document.getElementById('next-page');
     const queryResults = document.getElementById('query-results');
+    const localStorageInfo = document.getElementById('localstorage-info');
 
     let currentPage = 1;
     const queriesPerPage = 10;
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     openQueryModalButton.addEventListener('click', () => {
         queryModal.style.display = 'flex';
         displayQueries(currentPage, queryOutput, ''); // Initialize with empty search term
+        checkLocalStorageSize();
     });
 
     // Close modal
@@ -171,4 +173,66 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPage = 1; // Reset to first page on new search
         displayQueries(currentPage, queryOutput, searchTerm);
     });
+
+    // Check LocalStorage size
+    function checkLocalStorageSize() {
+        let totalSize = 0;
+        for (let key in localStorage) {
+            if (localStorage.hasOwnProperty(key)) {
+                totalSize += ((localStorage[key].length + key.length) * 2); // Each character is 2 bytes
+            }
+        }
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const usedSize = (totalSize / 1024).toFixed(2); // Size in KB
+        const remainingSize = ((maxSize - totalSize) / 1024).toFixed(2); // Remaining size in KB
+
+        console.log(`LocalStorage Size: ${usedSize} KB used, ${remainingSize} KB remaining`);
+        
+        localStorageInfo.innerHTML = `<p>LocalStorage Size: ${usedSize} KB used, ${remainingSize} KB remaining</p>`;
+
+        if (totalSize > (maxSize * 0.9)) {
+            alert('Warning: LocalStorage is almost full.');
+        }
+    }
+
+    // Export saved queries to CSV
+    function exportAllQueriesToCSV() {
+        const savedQueries = JSON.parse(localStorage.getItem('queries')) || [];
+        if (savedQueries.length === 0) {
+            alert('No queries available to export.');
+            return;
+        }
+
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "ID,Query Text\n"; // CSV headers
+
+        savedQueries.forEach(query => {
+            const row = `${query.id},"${query.text.replace(/"/g, '""')}"\n`;
+            csvContent += row;
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "saved_queries.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Confirmation before clearing all queries
+    document.getElementById('clear-localstorage').addEventListener('click', () => {
+        confirmationDialog.showConfirmationDialog(
+            'Are you sure you want to clear all saved queries? This action cannot be undone.',
+            null, // No specific ID needed for clearing all
+            () => {
+                localStorage.clear();
+                alert('All saved queries have been cleared.');
+                displayQueries(currentPage, queryOutput); // Refresh the display
+            }
+        );
+    });
+
+    // Attach event listeners to new buttons
+    document.getElementById('export-all-queries').addEventListener('click', exportAllQueriesToCSV);
 });

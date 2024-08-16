@@ -6,15 +6,23 @@
 - good for a demo, or a tool to help people learn sql. would rewrite in typescript / react or something.
 - has some python scripts to create a database and populate it with data.
 
-<img src="./landing.jpg" width="65%" />
-<img src="./landing2.jpg" width="65%" />
-
+!!!!!!!!!!!!!!!!
 - add more db tests? mariadb, postgres, sqlite.
 /database/mariadb/createSchemas.sql
 /database/postgres/createSchemas.sql
 /database/sqlite/createSchemas.sql
 
+- EDIT COMMENTS
+
 - write some gpt queries to test joins
+
+- figure out why I added the sample-routes. and fix it?
+
+- add a button to clear the query builder
+
+- make query editable and copyable...
+
+- start the db editor, migrator
 
 ### notes
 - resolve initial selected table not showing columns

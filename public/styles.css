@@ -103,6 +103,11 @@ button:hover {
     background-color: #0056b3;
 }
 
+button:disabled:hover {
+    cursor: not-allowed;
+    background-color: #ccc;
+}
+
 .history-btn {
     padding: 6px 12px;
     border: none;
@@ -279,6 +284,11 @@ button:hover {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+}
+
+.query-comment {
+    margin-right: 25px;
+    width: 100px;
 }
 
 .query-text {

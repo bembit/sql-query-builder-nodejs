@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sample Data Viewer</title>
+    <link rel="stylesheet" href="./styles.css">
     <script src="./js/sampleData.js" defer></script>
 </head>
 <body>
-    <div id="table-select-container">
-        <label for="table-select">Select Table:</label>
-        <select id="table-select"></select>
-    </div>
+<header>
+    <h1>SQL Query Builder</h1>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <!-- <li><a href="#table-analyser">Table Analyser</a></li> -->
+            <!-- <li><a href="#query-builder">Query Builder</a></li> -->
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="wrapper">
+        <div id="table-select-container">
+            <label for="table-select">Select Table:</label>
+            <select id="table-select"></select>
+        </div>
 
-    <div id="table-details"></div>
-    <div id="table-sample-data">asdasd</div>
+        <div id="table-details"></div>
+        <div id="table-sample-data"></div>
+    </div>
+</main> 
 </body>
 </html>

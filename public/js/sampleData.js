@@ -5,22 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(schema => {
                 console.log('Database Schema:', schema);
-
+    
                 // Get the table select dropdown element
                 const tableSelect = document.getElementById('table-select');
                 
                 // Clear existing options before adding new ones
                 tableSelect.innerHTML = '';
-
+    
                 // Populate the dropdown with new options
-                Object.keys(schema).forEach(table => {
+                Object.keys(schema).forEach((table, index) => {
                     const option = document.createElement('option');
                     option.value = table;
                     option.textContent = table;
                     tableSelect.appendChild(option);
+    
+                    // If this is the first option, select it
+                    if (index === 0) {
+                        tableSelect.value = table;
+                    }
                 });
-
+    
                 window.schema = schema;
+    
+                // Display details of the first table immediately
+                displayTableDetails();
             })
             .catch(error => console.error('Error fetching schema:', error));
     }
@@ -74,15 +82,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to fetch sample data for a selected table
     function fetchSampleData(table) {
-        console.log(table);
+        // console.log(table);
         fetch(`/api/schema?table=${encodeURIComponent(table)}`)
-            .then(response => response.json())
+            .then(response => response.json(console.log('Sample Data:', response.url)))
             .then(data => {
+                console.log(data);
+                console.log(data.rows);
                 if (data.rows && data.rows.length > 0) {
-                    console.log('Sample Data:', data);
+                    // console.log('Sample Data:', data);
     
                     // Display sample data in a table
                     const columns = window.schema[table];
+                    console.log(columns);
                     const columnNames = columns.map(col => col.name);
     
                     const dataHtml = `

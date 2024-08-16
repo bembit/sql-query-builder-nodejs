@@ -218,10 +218,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             queryResults.textContent = JSON.stringify(data.rows, null, 2);
+            
+            // Display the export button after results are fetched
+            document.getElementById('export-results').style.display = 'inline-block';
+            
             saveQueryToLocalStorage();
         })
         .catch(error => console.error('Error running query:', error));
     }
+    
 
     // Function to generate a unique ID
     function generateUniqueId() {
@@ -265,4 +270,40 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('run-query').addEventListener('click', runQuery);
 
     populateTableSelect();
+
+    function exportResultsToCSV() {
+        const resultsText = queryResults.textContent;
+        const results = JSON.parse(resultsText);
+        
+        if (!Array.isArray(results)) {
+            console.error('Query results are not in the expected format.');
+            return;
+        }
+    
+        // Extract headers
+        const headers = Object.keys(results[0]);
+        
+        // Convert JSON to CSV format
+        const csvContent = [
+            headers.join(','), // CSV header row
+            ...results.map(row => headers.map(header => `"${String(row[header]).replace(/"/g, '""')}"`).join(',')) // CSV data rows
+        ].join('\n');
+        
+        // Create a Blob with CSV content
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        
+        // Create a link element and trigger the download
+        const link = document.createElement('a');
+        if (link.download !== undefined) { // feature detection
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'query_results.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+    
+    document.getElementById('export-results').addEventListener('click', exportResultsToCSV);
+
 });

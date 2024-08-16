@@ -12,17 +12,26 @@ function populateTableSelect() {
             tableSelect.innerHTML = '';
 
             // Populate the dropdown with new options
-            Object.keys(schema).forEach(table => {
+            Object.keys(schema).forEach((table, index) => {
                 const option = document.createElement('option');
                 option.value = table;
                 option.textContent = table;
                 tableSelect.appendChild(option);
+
+                // If this is the first option, select it
+                if (index === 0) {
+                    tableSelect.value = table;
+                }
             });
 
             window.schema = schema;
+
+            // Display details of the first table immediately
+            displayTableDetails();
         })
         .catch(error => console.error('Error fetching schema:', error));
 }
+
 
 function displayTableDetails() {
     const tableSelect = document.getElementById('table-select');

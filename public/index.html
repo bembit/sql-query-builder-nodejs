@@ -56,6 +56,11 @@
                 <h3>Constructed Query:</h3>
                 <div id="query-output"></div>
             </div>
+            
+            <div class="query-section">
+                <label for="query-comment">Comment to save (optional):</label>
+                <input type="text" id="query-comment">
+            </div>
         
             <div class="query-section">
                 <button id="run-query">Run Query</button>
@@ -66,6 +71,11 @@
             <div class="query-section">
                 <h3>Query Results:</h3>
                 <pre id="query-results"></pre>
+            </div>
+
+            <div class="query-section">
+                <button id="export-results" style="display: none;">Export Results to CSV</button>
+                <!-- Button to open modal -->
             </div>
         
             <p>- saves query to localstorage on Run Query</p>
@@ -99,6 +109,11 @@
 
                 <div>
                     <button id="export-all-queries">Export All Queries to CSV</button>
+                  
+                    <!-- Import CSV Button and File Input -->
+                    <button id="import-queries" class="history-btn">Import CSV</button>
+                    <input type="file" id="csv-file-input" accept=".csv" style="display:none;">
+
                     <button id="clear-localstorage" class="delete-query">Clear LocalStorage</button>
                 </div>
             </div>

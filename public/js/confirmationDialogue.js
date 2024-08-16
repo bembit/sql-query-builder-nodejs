@@ -12,8 +12,12 @@ export class ConfirmationDialog {
 
     initEventListeners() {
         this.confirmDeleteButton.addEventListener('click', () => {
-            if (this.onConfirm && this.currentDeleteId) {
+            console.log('Confirm Delete Button Clicked');
+            if (this.onConfirm) {
+                console.log('Executing onConfirm function...');
                 this.onConfirm(this.currentDeleteId);
+            } else {
+                console.log('onConfirm is not set.');
             }
             this.closeConfirmationDialog();
         });
@@ -33,16 +37,18 @@ export class ConfirmationDialog {
         });
     }
 
-    showConfirmationDialog(message, id, onConfirm) {
+    showConfirmationDialog(message, id = null, onConfirm) {
         document.getElementById('confirmation-message').textContent = message;
         this.confirmationDialog.style.display = 'block';
         this.currentDeleteId = id;
         this.onConfirm = onConfirm;
+        console.log('Confirmation dialog shown with message:', message);
     }
 
     closeConfirmationDialog() {
         this.confirmationDialog.style.display = 'none';
         this.currentDeleteId = null;
         this.onConfirm = null;
+        console.log('Confirmation dialog closed');
     }
 }

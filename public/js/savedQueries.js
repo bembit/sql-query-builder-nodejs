@@ -83,7 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const checkComment = query.comment ? query.comment : 'No Comment';
 
             queryItem.innerHTML = `
-                <div class="query-comment">${checkComment}</div>
+                <input type="text" class="query-comment query-comment-edit" data-id="${query.id}" value="${checkComment}">
+                <button class="history-btn save-comment" data-id="${query.id}">Save Comment</button>
                 <div class="query-text">${query.text}</div>
                 <div class="query-buttons">
                     <button class="history-btn run-query" data-id="${query.id}">Run Query</button>
@@ -92,6 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="history-btn delete-query" data-id="${query.id}">Delete</button>
                 </div>
             `;
+
+            // Add event listener for saving the comment
+            queryItem.querySelector('.save-comment').addEventListener('click', (event) => {
+                const id = event.target.dataset.id;
+                const newComment = queryItem.querySelector('.query-comment-edit').value;
+                saveComment(id, newComment);
+            });
     
             queryItem.querySelector('.load-query').addEventListener('click', (event) => {
                 const id = event.target.dataset.id;
@@ -136,6 +144,19 @@ document.addEventListener('DOMContentLoaded', () => {
         prevPageButton.disabled = page === 1;
         nextPageButton.disabled = page === totalPages;
     }
+
+    function saveComment(id, newComment) {
+        let queries = JSON.parse(localStorage.getItem('queries')) || [];
+        const queryIndex = queries.findIndex(query => query.id === id);
+        if (queryIndex !== -1) {
+            queries[queryIndex].comment = newComment;
+            localStorage.setItem('queries', JSON.stringify(queries));
+            // could add a toast here
+            console.log('Comment saved successfully!');
+        } else {
+            console.error('Error: Query not found.');
+        }
+    }
     
     // Helper function to get query text by ID
     function getQueryTextById(id) {
@@ -146,9 +167,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function deleteQuery(id) {
         let queries = JSON.parse(localStorage.getItem('queries')) || [];
-        console.log('Before deletion:', queries); // Debugging
+        
+        console.log('Before deletion:', queries); 
         queries = queries.filter(query => query.id !== id);
-        console.log('After deletion:', queries); // Debugging
+
+        console.log('After deletion:', queries);
         localStorage.setItem('queries', JSON.stringify(queries));
     }
 
@@ -209,19 +232,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // need to add comment column
         let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "ID,Query Text\n"; // CSV headers
-
-        savedQueries.forEach(query => {
-            const row = `${query.id},"${query.text.replace(/"/g, '""')}"\n`;
-            csvContent += row;
-        });
-
-        // csvContent += "ID,Query Text,Comment\n"; // Add Comment to CSV headers
+        // csvContent += "ID,Query Text\n"; // CSV headers
 
         // savedQueries.forEach(query => {
-        //     const row = `${query.id},"${query.text.replace(/"/g, '""')}","${query.comment.replace(/"/g, '""')}"\n`;
+        //     const row = `${query.id},"${query.text.replace(/"/g, '""')}"\n`;
         //     csvContent += row;
         // });
+
+        csvContent += "ID,Query Text,Comment\n";
+
+        savedQueries.forEach(query => {
+            const row = `${query.id},"${query.text.replace(/"/g, '""')}","${query.comment.replace(/"/g, '""')}"\n`;
+            csvContent += row;
+        });
 
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
@@ -276,23 +299,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function importQueriesFromCSV(csvContent) {
         const rows = csvContent.split('\n').slice(1); // Skip the header row
         const queries = [];
-    
+
         rows.forEach(row => {
-            // Use a regular expression to correctly parse the CSV, handling commas within quotes
-            const match = row.match(/^(?<id>[^,]+),(?<text>".+"|[^,]+)$/);
+            // Regular expression to parse CSV with three fields: ID, Query Text, Comment
+            const match = row.match(/^(?<id>[^,]+),(?<text>".+"|[^,]+),(?<comment>".*"|[^,]*)$/);
             if (match) {
-                const { id, text } = match.groups;
-                // Remove the quotes from the query text if present
+                const { id, text, comment } = match.groups;
+                // Remove the quotes from the query text and comment if present
                 const cleanedText = text.startsWith('"') ? text.slice(1, -1) : text;
-                queries.push({ id, text: cleanedText });
+                const cleanedComment = comment.startsWith('"') ? comment.slice(1, -1) : comment;
+                queries.push({ id, text: cleanedText, comment: cleanedComment });
             }
         });
-    
+
         // Add the parsed queries to localStorage
         const existingQueries = JSON.parse(localStorage.getItem('queries')) || [];
         localStorage.setItem('queries', JSON.stringify([...existingQueries, ...queries]));
-    
-        alert('Queries imported successfully!');
+
+        alert('Queries and comments imported successfully!');
         displayQueries(currentPage, queryOutput); // Refresh the display
     }
     

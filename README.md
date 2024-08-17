@@ -12,6 +12,8 @@
 /database/postgres/createSchemas.sql
 /database/sqlite/createSchemas.sql
 
+- need import comments too
+
 - EDIT COMMENTS
 
 - write some gpt queries to test joins

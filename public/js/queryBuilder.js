@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const joinInputs = document.getElementById('join-inputs');
     const whereInputs = document.getElementById('where-inputs');
     const conditionInputs = document.getElementById('condition-inputs');
+    const queryComment = document.getElementById('query-comment');
     
     let queryParts = {
         select: '*',
@@ -237,12 +238,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveQueryToLocalStorage() {
         const queryText = queryOutput.textContent;
         const queryId = generateUniqueId();
+        const commentText = queryComment.value.trim(); // Get the comment text
 
         // Retrieve the existing queries from localStorage
         let queries = JSON.parse(localStorage.getItem('queries')) || [];
 
         // Add the new query as an object with ID and text
-        queries.unshift({ id: queryId, text: queryText });
+        const queryObject = {
+            id: queryId,
+            text: queryText,
+            comment: commentText
+        };
+        queries.unshift(queryObject);
 
         // If there are more than 1000 queries, remove the oldest one
         if (queries.length > 1000) {
@@ -305,5 +312,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     document.getElementById('export-results').addEventListener('click', exportResultsToCSV);
+
+    // Enable query editing on double click
+    queryOutput.addEventListener('dblclick', () => {
+        const currentQuery = queryOutput.textContent;
+        const input = document.createElement('textarea');
+        input.value = currentQuery;
+        input.style.width = '100%';
+        input.style.height = '100px';
+        
+        queryOutput.innerHTML = '';
+        queryOutput.appendChild(input);
+        input.focus();
+
+        const saveEditedQuery = () => {
+            queryOutput.textContent = input.value;
+            // handleInputChange();
+        };
+
+        input.addEventListener('blur', saveEditedQuery);
+        input.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                saveEditedQuery();
+            }
+        });
+    });
 
 });

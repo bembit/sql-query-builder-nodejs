@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Filter queries based on search term
         const filteredQueries = savedQueries.filter(query =>
-            query.text.toLowerCase().includes(searchTerm.toLowerCase())
+            query.text.toLowerCase().includes(searchTerm.toLowerCase()) || query.comment.toLowerCase().includes(searchTerm.toLowerCase())
         );
     
         const start = (page - 1) * queriesPerPage;
@@ -79,7 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         paginatedQueries.forEach((query) => {
             const queryItem = document.createElement('div');
             queryItem.classList.add('query-item');
+
+            const checkComment = query.comment ? query.comment : 'No Comment';
+
             queryItem.innerHTML = `
+                <div class="query-comment">${checkComment}</div>
                 <div class="query-text">${query.text}</div>
                 <div class="query-buttons">
                     <button class="history-btn run-query" data-id="${query.id}">Run Query</button>
@@ -203,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // need to add comment column
         let csvContent = "data:text/csv;charset=utf-8,";
         csvContent += "ID,Query Text\n"; // CSV headers
 
@@ -210,6 +215,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = `${query.id},"${query.text.replace(/"/g, '""')}"\n`;
             csvContent += row;
         });
+
+        // csvContent += "ID,Query Text,Comment\n"; // Add Comment to CSV headers
+
+        // savedQueries.forEach(query => {
+        //     const row = `${query.id},"${query.text.replace(/"/g, '""')}","${query.comment.replace(/"/g, '""')}"\n`;
+        //     csvContent += row;
+        // });
 
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");

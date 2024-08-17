@@ -16,9 +16,11 @@
 
 - EDIT COMMENTS
 
-- write some gpt queries to test joins
+- add a count?
 
-- figure out why I added the sample-routes. and fix it?
+- double click to edit is shit
+
+- write some gpt queries to test joins
 
 - add a button to clear the query builder
 

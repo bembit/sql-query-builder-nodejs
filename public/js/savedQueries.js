@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="query-text">${query.text}</div>
                 <div class="query-buttons">
                     <button class="history-btn run-query" data-id="${query.id}">Run Query</button>
-                    <button class="history-btn export-query" data-id="${query.id}">Export Query to CSV</button>
+                    <button disabled class="history-btn export-query" data-id="${query.id}">Export Query to CSV</button>
                     <button disabled class="history-btn load-query" data-id="${query.id}">Load</button>
                     <button class="history-btn delete-query" data-id="${query.id}">Delete</button>
                 </div>

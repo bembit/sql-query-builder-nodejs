@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <input type="text" placeholder="Join Condition">
             <button class="remove-button">Remove</button>
             <div class="join-columns-container">
-                <label for="join-columns">Select Columns:</label>
+                <label for="join-columns">Select Columns to Join:</label>
                 <select class="join-columns" multiple>
                 </select>
             </div>

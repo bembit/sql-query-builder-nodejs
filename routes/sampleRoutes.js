@@ -4,7 +4,7 @@ const { getSampleData } = require('../models/sample');
 const router = express.Router();
 
 // Route to get sample data from a specific table
-router.get('/api/schema/', (req, res) => {
+router.get('/', (req, res) => {
     const table = req.query.table;
     if (!table) {
         return res.status(400).json({ error: 'Table name is required' });

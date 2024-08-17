@@ -14,8 +14,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', routes);
 
 // app.use('/sample-data', sampleRoutes);
-app.get('/sample-data', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/sample-data.html'));
+app.get('/db-editor', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/db-editor.html'));
 });
 
 const PORT = process.env.PORT || 3000;

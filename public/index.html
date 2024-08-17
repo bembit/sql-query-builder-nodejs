@@ -17,14 +17,14 @@
         <nav>
             <ul>
                 <button id="open-query-modal" class="btn">View Saved Queries</button>
-                <li><a href="/sample-data">Sample Data</a></li>
-                <!-- <li><a href="#table-analyser">Table Analyser</a></li> -->
-                <!-- <li><a href="#query-builder">Query Builder</a></li> -->
+                <ul>
+                    <li><a href="/db-editor">DB Editor</a></li>
+                </ul>
             </ul>
         </nav>
     </header>
     <main>
-        <div class="query-builder wrapper">
+        <div id="query-builder" class="query-builder wrapper" draggable="true">
             <!-- table select -->
             <div class="query-section">
                 <label for="select-table">FROM Table:</label>
@@ -82,14 +82,16 @@
             <p>- access query history from top navigation "view saved queries"</p>
         </div>
 
-        <div class="table-container wrapper">
+        <div id="table-container" class="table-container wrapper" draggable="true">
 
-            <h2>Table / Schema helper</h2>
-            <button type="button" onclick="populateTableSelect()">Populate Tables</button>
+            <button disabled type="button" onclick="populateTableSelect()">Populate Tables</button>
             <label for="table-select">Select Table:</label>
             <select id="table-select" onchange="displayTableDetails()"></select>
             <div id="table-details">
                 <!-- Table details will be displayed here -->
+            </div>
+            <div id="sample-data" class="table-details">
+                <!-- Sample data will be displayed here -->
             </div>
         </div>
     </main>
@@ -97,7 +99,7 @@
     <!-- Modal Structure -->
     <div id="query-modal" class="modal">
         <div class="modal-content wrapper">
-            <span class="close">&times;</span>
+            <span class="close" style="display: none;">&times;</span>
             <div id="pagination-controls">
                 <div>
                     <button id="prev-page">Previous</button>
@@ -111,13 +113,13 @@
                     <button id="export-all-queries">Export All Queries to CSV</button>
                   
                     <!-- Import CSV Button and File Input -->
-                    <button id="import-queries" class="history-btn">Import CSV</button>
+                    <button id="import-queries" class="">Import CSV</button>
                     <input type="file" id="csv-file-input" accept=".csv" style="display:none;">
 
                     <button id="clear-localstorage" class="delete-query">Clear LocalStorage</button>
                 </div>
             </div>
-            <h2>Saved Queries</h2>
+            <!-- <h2>Saved Queries</h2> -->
             <input type="text" id="search-query" placeholder="Search queries...">
             <div id="query-list"></div>
         </div>

@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
                     const dataHtml = `
                         <h3>Sample Data for Table: ${table}</h3>
-                        <table class="sample-data">
+                        <table class="">
                             <thead>
                                 <tr>
                                     ${columnNames.map(name => `<th>${name}</th>`).join('')}

@@ -1,4 +1,4 @@
-// const db = require('../models/db');
+// Assuming dbPostgre.js exports a connected `pg` Pool instance
 const db = require('../models/dbPostgre');
 
 exports.runQuery = (req, res) => {
@@ -12,14 +12,14 @@ exports.runQuery = (req, res) => {
     // Log the query for debugging
     console.log('Running query:', query);
 
-    // Execute the query
-    db.all(query, [], (err, rows) => {
+    // Execute the query using `pg`'s `query` method
+    db.query(query, (err, result) => {
         if (err) {
             console.error('Query Error:', err.message); // Log detailed error
             return res.status(500).json({ query, error: err.message });
         }
 
         // Send back the query and results
-        res.json({ query, rows });
+        res.json({ query, rows: result.rows });
     });
 };

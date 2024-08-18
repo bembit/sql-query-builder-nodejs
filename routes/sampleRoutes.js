@@ -1,5 +1,6 @@
 const express = require('express');
-const { getSampleData } = require('../models/sample');
+// const { getSampleData } = require('../models/sample');
+const { getSampleData } = require('../models/samplePostgre');
 
 const router = express.Router();
 

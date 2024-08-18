@@ -1,5 +1,5 @@
 const express = require('express');
-const { runQuery } = require('../controllers/queryController');
+const { runQuery } = require('../controllers/queryControllerPostgre');
 
 const router = express.Router();
 

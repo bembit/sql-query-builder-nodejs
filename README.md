@@ -16,6 +16,9 @@
 
 - EDIT COMMENTS
 
+- ok, add DBs now.
+- then do editor.
+
 - add a count?
 
 - double click to edit is shit

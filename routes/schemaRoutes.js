@@ -1,5 +1,6 @@
 const express = require('express');
-const { getSchema } = require('../models/schema');
+// const { getSchema } = require('../models/schema');
+const { getSchema } = require('../models/schemaPostgre');
 
 const router = express.Router();
 

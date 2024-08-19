@@ -298,7 +298,8 @@ table {
 
 .modal-content {
     display: flex;
-    background-color: #000000;
+    background-color: var(--bg-color);
+    background-image: linear-gradient(180deg, #27b36b2a 0%, #31a6d82d 35%, #1fdacd38 70%, #4fe19536 100%);
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #888;

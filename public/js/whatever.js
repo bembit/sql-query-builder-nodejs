@@ -1,56 +1,49 @@
-
 // document.addEventListener('DOMContentLoaded', () => {
 //     const queryInput = document.getElementById('query-input');
-//     const updateOutput = document.getElementById('update-output');
 //     const convertButton = document.getElementById('convert-query');
-
+//     const queryForm = document.getElementById('query-form');
+//     const generatedQuery = document.getElementById('generated-query');
+    
 //     convertButton.addEventListener('click', () => {
 //         const selectQuery = queryInput.value.trim();
-
+        
 //         if (!selectQuery.toLowerCase().startsWith('select')) {
-//             updateOutput.textContent = 'Please enter a valid SELECT query.';
+//             generatedQuery.textContent = 'Please enter a valid SELECT query.';
 //             return;
 //         }
 
-//         // Extract the main table name (employees)
+//         // Extract table name and WHERE clause
 //         const tableMatch = selectQuery.match(/from\s+(\w+)/i);
 //         if (!tableMatch) {
-//             updateOutput.textContent = 'Unable to determine table from query.';
+//             generatedQuery.textContent = 'Unable to determine table from query.';
 //             return;
 //         }
 
 //         const tableName = tableMatch[1];
 
-//         // Get dynamic SET clauses from user input
-//         const setFields = prompt('Enter column=value pairs, separated by commas (e.g., salary=60000, department_id=2):');
-//         if (!setFields) {
-//             updateOutput.textContent = 'SET fields are required.';
-//             return;
-//         }
+//         const whereClause = selectQuery
+//             .replace(/^select\s+.*?\s+from\s+/i, '')
+//             .replace(/where\s+/i, '');
 
-//         // Extract the WHERE clause (excluding JOIN conditions)
-//         const whereMatch = selectQuery.match(/where\s+(.+)/i);
+//         // Populate form fields
+//         document.getElementById('table-name').value = tableName;
+//         document.getElementById('set-fields').value = ''; // Set fields are not extracted in this example
+//         document.getElementById('where-clause').value = whereClause;
 
-//         if (!whereMatch) {
-//             updateOutput.textContent = 'Unable to determine WHERE clause from query.';
-//             return;
-//         }
+//         // Show form
+//         queryForm.style.display = 'block';
+//     });
 
-//         const whereCondition = whereMatch[1].trim();
+//     // Handle form submission
+//     queryForm.addEventListener('submit', (event) => {
+//         event.preventDefault();
 
-//         // Construct the update query
-//         const updateQuery = `
-//             UPDATE ${tableName}
-//             SET ${setFields}
-//             WHERE department_id IN (
-//                 SELECT d.department_id
-//                 FROM departments AS d
-//                 WHERE ${whereCondition.replace(/e\./g, '').replace(/d\./g, 'd.')}
-//             );
-//         `;
+//         const tableName = document.getElementById('table-name').value.trim();
+//         const setFields = document.getElementById('set-fields').value.trim();
+//         const whereClause = document.getElementById('where-clause').value.trim();
 
-//         // Display the generated UPDATE query
-//         updateOutput.textContent = updateQuery.trim();
+//         const updateQuery = `UPDATE ${tableName} SET ${setFields} WHERE ${whereClause};`;
+//         generatedQuery.textContent = updateQuery;
 //     });
 // });
 
@@ -58,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const queryInput = document.getElementById('query-input');
     const updateOutput = document.getElementById('update-output');
     const convertButton = document.getElementById('convert-query');
+    const queryForm = document.getElementById('query-form');
+    const generatedQuery = document.getElementById('generated-query');
 
     convertButton.addEventListener('click', () => {
         const selectQuery = queryInput.value.trim();
@@ -75,13 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const tableName = tableMatch[1];
         const tableAlias = tableMatch[2];
-
-        // Get dynamic SET clauses from user input (add additional fields as needed)
-        const setFields = prompt('Enter column=value pairs, separated by commas (e.g., salary=60000, department_id=2):');
-        if (!setFields) {
-            updateOutput.textContent = 'SET fields are required.';
-            return;
-        }
 
         // Extract the WHERE clause
         const whereMatch = selectQuery.match(/where\s+(.+)/i);
@@ -111,6 +99,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Populate form fields
+        document.getElementById('table-name').value = tableName;
+        document.getElementById('set-fields').value = ''; // Prompt user to enter SET fields
+        document.getElementById('subquery-conditions').value = subqueryConditions.join(', ');
+        document.getElementById('main-table-conditions').value = mainTableConditions.join(', ');
+
+        // Show form
+        queryForm.style.display = 'block';
+    });
+
+    // Handle form submission
+    queryForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const tableName = document.getElementById('table-name').value.trim();
+        const setFields = document.getElementById('set-fields').value.trim();
+        const subqueryConditions = document.getElementById('subquery-conditions').value.trim().split(',').map(c => c.trim());
+        const mainTableConditions = document.getElementById('main-table-conditions').value.trim().split(',').map(c => c.trim());
+
         // Build the final update query
         const updateQuery = `
             UPDATE ${tableName}
@@ -123,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ${mainTableConditions.length > 0 ? 'AND ' + mainTableConditions.join(' AND ') : ''};
         `.trim();
 
-        updateOutput.textContent = updateQuery;
+        generatedQuery.textContent = updateQuery;
     });
 });
+

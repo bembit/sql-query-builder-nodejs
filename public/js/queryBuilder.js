@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <input type="text" placeholder="Join Table">
             <input type="text" placeholder="Join Alias">
             <input type="text" placeholder="Join Condition">
-            <button class="remove-button">Remove</button>
+            <button class="remove-button">Remove Join</button>
             <div class="join-columns-container">
                 <label for="join-columns">Select Columns to Join:</label>
                 <select class="join-columns" multiple>
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
         whereDiv.className = 'query-section';
         whereDiv.innerHTML = `
             <input type="text" placeholder="WHERE Condition">
-            <button class="remove-button">Remove</button>
+            <button class="remove-button">Remove WHERE</button>
         `;
         whereInputs.appendChild(whereDiv);
 
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
         conditionDiv.className = 'query-section';
         conditionDiv.innerHTML = `
             <input type="text" placeholder="Additional Condition">
-            <button class="remove-button">Remove</button>
+            <button class="remove-button">Remove Condition</button>
         `;
         conditionInputs.appendChild(conditionDiv);
 

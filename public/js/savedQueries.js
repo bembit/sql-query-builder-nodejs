@@ -83,8 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const checkComment = query.comment ? query.comment : 'No Comment';
 
             queryItem.innerHTML = `
+                <div class="query-comment-container">
                 <input type="text" class="query-comment query-comment-edit" data-id="${query.id}" value="${checkComment}">
                 <button class="history-btn save-comment" data-id="${query.id}">Save Comment</button>
+                </div>
                 <div class="query-text">${query.text}</div>
                 <div class="query-buttons">
                     <button class="history-btn run-query" data-id="${query.id}">Run Query</button>

@@ -6,7 +6,9 @@
 - good for a demo, or a tool to help people learn sql. would rewrite in typescript / react or something.
 - has some python scripts to create a database and populate it with data.
 
-### notes
+### todo
+
+- [ ] import should validate IDs, and ignore if they are already in localstorage
 
 - [ ] rewrite everything localstorage based to sqlite, or just have the possibility
 
@@ -58,5 +60,6 @@
 
 - [x] expand joins to dropdown multi joins.
 
-### failed - meh - maybe at rebuild
-- save the entire query state to local storage so we can load them later as an editable form
+### failed / discarded for demo
+
+- [ ] save the entire query state to local storage so we can load them later as an editable form

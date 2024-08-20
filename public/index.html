@@ -17,16 +17,27 @@
         <nav>
             <ul>
                 <button id="open-query-modal" class="btn">View Saved Queries</button>
+
+                <div>
+                    <button id="toggle-query-builder" class="btn" onclick="toggleElement('query-builder')">Show Query Builder</button>
+                    <button id="toggle-table-container" class="btn" onclick="toggleElement('table-container')">Show Table Tool</button>
+                </div>
                 <ul>
-                    <li><a href="/db-editor">DB Editor</a></li>
+                    <li><a href="/db-editor">DB Editor (WIP)</a></li>
                 </ul>
             </ul>
         </nav>
     </header>
     <main id="query-builder-main">
         <!-- <div id="query-builder" class="query-builder wrapper" draggable="true"> -->
-        <div id="query-builder" class="query-builder wrapper">
-            
+            <div id="query-builder" class="query-builder wrapper">
+            <button class="close-btn" onclick="closeElement('query-builder')">×</button>
+
+            <div class="font-size-controls">
+                <button class="font-btn" onclick="adjustFontSize('query-builder', 1)">+</button>
+                <button class="font-btn" onclick="adjustFontSize('query-builder', -1)">-</button>
+            </div>
+
             <!-- table select -->
             <div class="query-section">
                 <label for="select-table">FROM Table:</label>
@@ -86,8 +97,14 @@
 
         <!-- <div id="table-container" class="table-container wrapper" draggable="true"> -->
         <div id="table-container" class="table-container wrapper">
+            <button class="close-btn" onclick="closeElement('table-container')">×</button>
 
-            <button disabled type="button" onclick="populateTableSelect()">Populate Tables</button>
+            <div class="font-size-controls">
+                    <button class="font-btn" onclick="adjustFontSize('table-container', 1)">+</button>
+                    <button class="font-btn" onclick="adjustFontSize('table-container', -1)">-</button>
+            </div>
+            
+            <!-- <button disabled type="button" onclick="populateTableSelect()">Populate Tables</button> -->
             <label for="table-select">Select Table:</label>
             <select id="table-select" onchange="displayTableDetails()"></select>
             <div id="table-details">

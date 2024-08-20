@@ -8,7 +8,7 @@ const getSampleData = (table, callback) => {
         return callback(new Error('Table name is required'));
     }
 
-    const query = `SELECT * FROM ${table} LIMIT 5`;
+    const query = `SELECT * FROM ${table} LIMIT 10`;
 
     pool.query(query, (err, result) => {
         if (err) {

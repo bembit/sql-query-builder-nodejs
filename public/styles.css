@@ -74,7 +74,7 @@ table {
 }
 
 button {
-    padding: 10px 15px;
+    padding: 10px 16px;
     border: none;
     border-radius: 4px;
     color: #fff;
@@ -82,10 +82,12 @@ button {
     cursor: pointer;
     margin-right: 10px;
     font-size: 14px;
+    font-weight: bold;
+    box-shadow: 3px 3px 12px 1px rgba(0, 0, 0, 0.2);
 }
 
 .table-container button {
-    margin-right: 0px;
+    /* margin-right: 0px; */
 }
 
 button:disabled {
@@ -126,13 +128,11 @@ button:disabled:hover {
 }
 
 .query-builder {
-    flex-basis: 65%;
-    min-width: 800px;
-    max-width: 800px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     border: 1px solid rgba(79, 225, 149, 0.25);
@@ -143,9 +143,10 @@ button:disabled:hover {
 }
 
 main#query-builder-main .wrapper:first-child {
+    flex-basis: 65%;
     /* min-width: 800px; */
     /* max-width: 800px; */
-    flex-basis: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 main#query-builder-main .wrapper:last-child {
@@ -168,11 +169,15 @@ main#query-builder-main .wrapper:last-child {
     font-weight: bold;
 }
 
-.query-section label:not(:first-child), .table-container label:not(:first-child) {
+.query-section label:not(:first-child) {
     margin-top: 10px;
 }
 
-#join-inputs button {
+.table-container label:not(:first-child) {
+    /* margin-top: 20px; */
+}
+
+.query-section .remove-button {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -247,7 +252,10 @@ main#query-builder-main .wrapper:last-child {
     background-color: var(--bg-color);
     line-break: anywhere;
     margin-bottom: 10px;
+}
 
+.sample-data-table {
+    width: 100%;
 }
 
 #table-details {
@@ -302,7 +310,7 @@ table {
     background-image: linear-gradient(180deg, #27b36b2a 0%, #31a6d82d 35%, #1fdacd38 70%, #4fe19536 100%);
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid rgba(79, 225, 149, 0.25);
     width: 80%;
     min-height: 80%;
     position: relative;
@@ -366,9 +374,14 @@ table {
     flex-direction: row;
     justify-content: space-between;
     padding: 10px;
-    /* border-top: 1px solid #dddddd46; */
-    /* border-bottom: 1px solid #dddddd46; */
     transition: background-color 0.3s;
+}
+
+.query-comment-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .modal #query-list .query-item:nth-child(odd) {
@@ -380,9 +393,11 @@ table {
 }
 
 .query-item input[type=text] {
-    border-radius: 5px;
+    border-radius: 4px;
     text-align: left;
     padding: 2px 6px;
+    margin-right: 10px;
+    font-size: 14px;
 }
 
 .confirmation-dialog {
@@ -451,4 +466,46 @@ table {
 
 #select-columns, .join-columns {
     min-height: 250px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: darkred;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0px;
+}
+
+.close-btn:hover {
+    background-color: darkred;
+}
+
+.font-size-controls {
+    position: absolute;
+    top: 0px;
+    right: 35px;
+    display: flex;
+    flex-direction: row;
+}
+
+.font-btn {
+    background-color: var(--bg-color);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

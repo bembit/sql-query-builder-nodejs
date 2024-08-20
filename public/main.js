@@ -1,4 +1,6 @@
-// ui maybe
+// drag and drop
+
+// remove elements from DOM
 
 document.addEventListener('DOMContentLoaded', () => {
     const containers = document.querySelectorAll('.wrapper');
@@ -56,3 +58,98 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// main.js
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Restore visibility states from local storage
+    const queryBuilder = document.getElementById('query-builder');
+    const tableContainer = document.getElementById('table-container');
+
+    if (localStorage.getItem('queryBuilderVisible') === 'false') {
+        queryBuilder.style.display = 'none';
+    }
+
+    if (localStorage.getItem('tableContainerVisible') === 'false') {
+        tableContainer.style.display = 'none';
+    }
+
+    updateLayout();
+});
+
+function closeElement(elementId) {
+    const element = document.getElementById(elementId);
+    element.style.display = 'none';
+
+    // Save the state to local storage
+    if (elementId === 'query-builder') {
+        localStorage.setItem('queryBuilderVisible', 'false');
+    } else if (elementId === 'table-container') {
+        localStorage.setItem('tableContainerVisible', 'false');
+    }
+
+    updateLayout();
+}
+
+function toggleElement(elementId) {
+    const element = document.getElementById(elementId);
+    const isHidden = element.style.display === 'none';
+    element.style.display = isHidden ? 'block' : 'none';
+
+    // Save the state to local storage
+    if (elementId === 'query-builder') {
+        localStorage.setItem('queryBuilderVisible', isHidden ? 'true' : 'false');
+    } else if (elementId === 'table-container') {
+        localStorage.setItem('tableContainerVisible', isHidden ? 'true' : 'false');
+    }
+
+    updateLayout();
+}
+
+function updateLayout() {
+    const queryBuilder = document.getElementById('query-builder');
+    const tableContainer = document.getElementById('table-container');
+    const main = document.querySelector('main');
+    
+    // Select the first and last .wrapper elements
+    const firstWrapper = document.querySelector('main#query-builder-main .wrapper:first-child');
+    const lastWrapper = document.querySelector('main#query-builder-main .wrapper:last-child');
+
+    if (queryBuilder.style.display === 'none' && tableContainer.style.display !== 'none') {
+        lastWrapper.style.flexBasis = '75%';
+        main.style.justifyContent = 'center';
+    } else if (tableContainer.style.display === 'none' && queryBuilder.style.display !== 'none') {
+        firstWrapper.style.flexBasis = '75%';
+        main.style.justifyContent = 'center';
+    } else {
+        firstWrapper.style.flexBasis = '50%';
+        lastWrapper.style.flexBasis = '50%';
+    }
+
+    updateNavButtons();
+}
+
+function updateNavButtons() {
+    const queryBuilder = document.getElementById('query-builder');
+    const tableContainer = document.getElementById('table-container');
+
+    document.getElementById('toggle-query-builder').style.display = queryBuilder.style.display === 'none' ? 'inline-block' : 'none';
+    document.getElementById('toggle-table-container').style.display = tableContainer.style.display === 'none' ? 'inline-block' : 'none';
+}
+
+// Function to adjust font size for an element and all its children
+function adjustFontSize(elementId, increment) {
+    const element = document.getElementById(elementId);
+    adjustFontSizeRecursively(element, increment);
+}
+
+function adjustFontSizeRecursively(element, increment) {
+    // Adjust the font size of the current element
+    const currentFontSize = window.getComputedStyle(element, null).getPropertyValue('font-size');
+    const newFontSize = parseFloat(currentFontSize) + increment;
+    element.style.fontSize = newFontSize + 'px';
+
+    // Recursively adjust font size for all child elements
+    Array.from(element.children).forEach(child => {
+        adjustFontSizeRecursively(child, increment);
+    });
+}

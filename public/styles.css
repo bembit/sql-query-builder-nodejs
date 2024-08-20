@@ -87,7 +87,7 @@ button {
 }
 
 .table-container button {
-    margin-right: 0px;
+    /* margin-right: 0px; */
 }
 
 button:disabled {
@@ -490,29 +490,22 @@ table {
     background-color: darkred;
 }
 
-/* styles.css */
 .font-size-controls {
     position: absolute;
-    top: 10px;
-    right: 50px;
+    top: 0px;
+    right: 35px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .font-btn {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
+    background-color: var(--bg-color);
     border-radius: 50%;
     cursor: pointer;
     font-size: 14px;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 2px 0;
-}
-
-.font-btn:hover {
-    background-color: #e0e0e0;
 }

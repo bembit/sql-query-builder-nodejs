@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const whereInputs = document.getElementById('where-inputs');
     const conditionInputs = document.getElementById('condition-inputs');
     const queryComment = document.getElementById('query-comment');
+    const distinctCheckbox = document.getElementById('select-distinct');
     
     let queryParts = {
         select: '*',
@@ -81,8 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
             queryParts.select.push(...joinTableColumns.map(column => `${joinTableAlias}.${column}`));
         });
 
+        // Check if DISTINCT checkbox is checked
+        const selectClause = distinctCheckbox.checked ? 'SELECT DISTINCT' : 'SELECT';
+        
         // Construct the query
-        let query = `SELECT ${queryParts.select.length > 0 ? queryParts.select.join(', ') : '*'}`;
+        let query = `${selectClause} ${queryParts.select.length > 0 ? queryParts.select.join(', ') : '*'}`;
         query += ` FROM ${selectedTable}`;
         if (tableAlias) {
             query += ` AS ${tableAlias}`;
@@ -106,6 +110,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update the output
         queryOutput.textContent = query;
     }
+
+    function generateCountQuery(originalQuery) {
+        // Find the indices for the SELECT and FROM keywords
+        const selectIndex = originalQuery.toUpperCase().indexOf('SELECT');
+        const fromIndex = originalQuery.toUpperCase().indexOf('FROM');
+    
+        // Extract the part before SELECT and after FROM
+        const beforeSelect = originalQuery.substring(0, selectIndex + 6); // Include "SELECT"
+        const afterFrom = originalQuery.substring(fromIndex); // Everything from "FROM" onward
+    
+        // Construct the COUNT query by replacing the selected columns with COUNT(*)
+        const countQuery = `${beforeSelect} COUNT(*) AS total_count ${afterFrom}`;
+    
+        return countQuery;
+    }
+    
 
     function handleInputChange() {
         queryParts.joins = Array.from(joinInputs.querySelectorAll('.query-section')).map(div => {
@@ -208,17 +228,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function runQuery() {
-        const query = queryOutput.textContent;
+        const originalQuery = queryOutput.textContent;
+    
+        // Run the original query
         fetch('/api/query', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ query: query })
+            body: JSON.stringify({ query: originalQuery })
         })
         .then(response => response.json())
         .then(data => {
             queryResults.textContent = JSON.stringify(data.rows, null, 2);
+            
+            // After running the original query, generate and run the count query
+            const countQuery = generateCountQuery(originalQuery);
+            return fetch('/api/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: countQuery })
+            });
+        })
+        .then(response => response.json())
+        .then(countData => {
+            // Display the count result
+            const queryResultsNumber = document.getElementById('query-results-header');
+            queryResultsNumber.textContent = 'Query Results:';
+            console.log("Total Count:", countData.rows[0].total_count);
+            queryResultsNumber.textContent += ` - Total Count: ${countData.rows[0].total_count}`;
             
             // Display the export button after results are fetched
             document.getElementById('export-results').style.display = 'inline-block';
@@ -227,6 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error running query:', error));
     }
+    
     
 
     // Function to generate a unique ID
@@ -260,6 +301,9 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('queries', JSON.stringify(queries));
     }
 
+    // Add event listener for the distinct checkbox
+    distinctCheckbox.addEventListener('change', updateQuery);
+    // Add event listener for the table select
     tableSelect.addEventListener('change', (event) => {
         const table = event.target.value;
         queryParts.from = table;

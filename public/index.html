@@ -34,6 +34,7 @@
             <button class="close-btn" onclick="closeElement('query-builder')">×</button>
 
             <div class="font-size-controls">
+                <button class="font-btn full-width-btn" onclick=""><--></button>
                 <button class="font-btn" onclick="adjustFontSize('query-builder', 1)">+</button>
                 <button class="font-btn" onclick="adjustFontSize('query-builder', -1)">-</button>
             </div>
@@ -56,6 +57,9 @@
                 <button id="add-join">Add JOIN</button>
                 <button id="add-where">Add WHERE</button>
                 <button id="add-condition">Add Condition</button>
+                <label>
+                    <input type="checkbox" id="select-distinct"> Select DISTINCT values
+                </label>
             </div>
         
             <!-- This section will hold all the join inputs and their corresponding column selectors -->
@@ -82,7 +86,7 @@
         
             <!-- pre copy or export to csv -->
             <div class="query-section">
-                <h3>Query Results:</h3>
+                <h3 id="query-results-header">Query Results:</h3>
                 <pre id="query-results"></pre>
             </div>
 
@@ -100,10 +104,12 @@
             <button class="close-btn" onclick="closeElement('table-container')">×</button>
 
             <div class="font-size-controls">
+                    <button class="font-btn full-width-btn" onclick=""><--></button>
                     <button class="font-btn" onclick="adjustFontSize('table-container', 1)">+</button>
                     <button class="font-btn" onclick="adjustFontSize('table-container', -1)">-</button>
             </div>
-            
+
+
             <!-- <button disabled type="button" onclick="populateTableSelect()">Populate Tables</button> -->
             <label for="table-select">Select Table:</label>
             <select id="table-select" onchange="displayTableDetails()"></select>

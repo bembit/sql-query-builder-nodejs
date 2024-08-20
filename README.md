@@ -1,66 +1,62 @@
 ### TEST; SQL Query Builder / table analyser in Node.js / vanilla
 
-### The main idea would be to connect it to any sql database and do stuff with it.
+### The main idea would be to connect it to any sql database and do stuff.
 
 - definitely sounded easier in concept than it actually is while building it.
 - good for a demo, or a tool to help people learn sql. would rewrite in typescript / react or something.
 - has some python scripts to create a database and populate it with data.
 
-!!!!!!!!!!!!!!!!
-- add more db tests? mariadb, postgres, sqlite.
-/database/mariadb/createSchemas.sql
-/database/postgres/createSchemas.sql
-/database/sqlite/createSchemas.sql
-
-- need import comments too
-
-- EDIT COMMENTS
-
-- ok, add DBs now.
-- then do editor.
-
-- add a count?
-
-- double click to edit is shit
-
-- write some gpt queries to test joins
-
-- add a button to clear the query builder
-
-- make query editable and copyable...
-
-- start the db editor, migrator
-
 ### notes
-- resolve initial selected table not showing columns
-- added user options and confirmation dialog
 
-- add an interface, maybe tabbed, or nav bar
+- [ ] rewrite everything localstorage based to sqlite, or just have the possibility
 
-- add DISTINCT toggle
-- add COUNT(*) toggle
-- can add limit
+- [x] resolve initial selected table not showing columns
 
-- add option to select columns from joined tables ...
+- [x] added user options and confirmation dialog
 
-- on modal close, set searchbar to empty
+- [x] add an interface, maybe tabbed, or nav bar
 
-- copy to clipboard button for query.
+- [ ] queries dropdown for last 15 entries
 
-- export to csv button functions 
+- [ ] add DISTINCT toggle
 
-- expand on table analyser, more details, first few rows, etc
+- [ ] add COUNT(*) toggle
 
-- clean up messy code and refactor, structure, and comments
+- [ ] can add limit
 
-- add an I'm a grown-up I can write my own SQL queries field ( or a checkbox so I can edit manually )
+- [x] add option to select columns from joined tables ...
 
-- build a migration tool to edit stuff
-- query builder like
+- [ ] on modal close, set searchbar to empty
 
-later:
-- expand joins to dropdown multi joins.
+- [ ] copy to clipboard button for query.
 
-### failed - meh - maybe at rebuild, design
-- save the entire query state to local storage
-- so we can load them later to an editable form
+- [x] export to csv button functions 
+
+- [x] expand on table analyser, more details, first few rows, etc
+
+- [ ] clean up messy code and refactor, structure, and comments
+
+- [x] need import comments too
+
+- [x] EDIT COMMENTS
+
+- [x] ok, add DBs now.
+
+- [x] then do editor.
+
+- [ ] add a count to the end results
+
+- [ ] double click to edit is shit
+
+- [ ] write some gpt queries to test joins
+
+- [ ] add a button to clear the query builder
+
+- [ ] make query editable and copyable...
+
+- [x] start the db editor, migrator
+
+- [x] expand joins to dropdown multi joins.
+
+### failed - meh - maybe at rebuild
+- save the entire query state to local storage so we can load them later as an editable form

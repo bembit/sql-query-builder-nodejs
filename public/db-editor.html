@@ -9,6 +9,7 @@
     <script src="js/confirmationDialogue.js" type="module"></script>
     <script src="js/updateConverter.js" defer></script>
     <script src="main.js" defer></script>
+    <script src="js/whatever.js" defer></script>
 </head>
 <body>
 <header>
@@ -31,10 +32,38 @@
         </div>
     
         <div>
-            <h2>Generated Update Query:</h2>
+            <h2>Example Update Query:</h2>
             <pre id="update-output"></pre>
         </div>
+
+        <div>
+            <h2>Breakdown of Query:</h2>
+
+            <form id="query-form" style="display:none;">
+                <label for="table-name">Table Name:</label>
+                <input type="text" id="table-name" name="table-name" required><br>
+                
+                <label for="set-fields">SET Fields (comma-separated):</label>
+                <input type="text" id="set-fields" name="set-fields" required><br>
+                
+                <label for="subquery-conditions">Subquery Conditions (comma-separated):</label>
+                <input type="text" id="subquery-conditions" name="subquery-conditions" required><br>
+                
+                <label for="main-table-conditions">Main Table Conditions (comma-separated):</label>
+                <input type="text" id="main-table-conditions" name="main-table-conditions" required><br>
+                
+                <h2>generate final query</h2>
+
+                <button type="submit">Generate SQL Query</button>
+            </form>
+
+            <pre id="generated-query"></pre>
+        </div>
     </div>
+
+    <!-- <div class="wrapper">
+
+    </div> -->
 
      <!-- Modal Structure -->
      <div id="query-modal" class="modal">

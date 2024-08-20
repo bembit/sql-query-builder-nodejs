@@ -142,13 +142,13 @@ button:disabled:hover {
     margin-top: 35px;
 }
 
-main .wrapper:first-child {
+main#query-builder-main .wrapper:first-child {
     /* min-width: 800px; */
     /* max-width: 800px; */
     flex-basis: 50%;
 }
 
-main .wrapper:last-child {
+main#query-builder-main .wrapper:last-child {
     /* max-width: 650px; */
     flex-basis: 50%;
 }

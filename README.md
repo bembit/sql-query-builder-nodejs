@@ -8,6 +8,8 @@
 
 ### todo
 
+- [x] added lots of UI shit as usual
+
 - [ ] import should validate IDs, and ignore if they are already in localstorage
 
 - [ ] rewrite everything localstorage based to sqlite, or just have the possibility

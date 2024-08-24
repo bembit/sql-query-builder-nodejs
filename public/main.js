@@ -142,6 +142,7 @@ function adjustFontSize(elementId, increment) {
     adjustFontSizeRecursively(element, increment);
 }
 
+// kinda wonky now probably because of the CSS
 function adjustFontSizeRecursively(element, increment) {
     // Adjust the font size of the current element
     const currentFontSize = window.getComputedStyle(element, null).getPropertyValue('font-size');
@@ -152,4 +153,18 @@ function adjustFontSizeRecursively(element, increment) {
     Array.from(element.children).forEach(child => {
         adjustFontSizeRecursively(child, increment);
     });
+}
+
+// Function to toggle full-width of a visible wrapper
+function toggleFullWidth(elementId) {
+    const element = document.getElementById(elementId);
+    const isFullWidth = element.classList.contains('full-width');
+
+    if (isFullWidth) {
+        element.style.flexBasis = '75%';
+        element.classList.remove('full-width');
+    } else {
+        element.style.flexBasis = '100%';
+        element.classList.add('full-width');
+    }
 }

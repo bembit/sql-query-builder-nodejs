@@ -8,6 +8,10 @@
 
 ### todo
 
+A validation would be great so we couldn't spam empty SELECT * queries.
+
+- [ ] add order by default _id ?
+
 - [x] added lots of UI shit as usual
 
 - [ ] import should validate IDs, and ignore if they are already in localstorage
@@ -22,15 +26,15 @@
 
 - [ ] queries dropdown for last 15 entries
 
-- [ ] add DISTINCT toggle
+- [x] add DISTINCT toggle
 
-- [ ] add COUNT(*) toggle
+- [x] add COUNT(*) toggle
 
-- [ ] can add limit
+- [x] can add limit
 
 - [x] add option to select columns from joined tables ...
 
-- [ ] on modal close, set searchbar to empty
+- [ ] on modal close, set searchbar to empty? or don't?
 
 - [ ] copy to clipboard button for query.
 
@@ -48,7 +52,7 @@
 
 - [x] then do editor.
 
-- [ ] add a count to the end results
+- [x] add a count to the end results
 
 - [ ] double click to edit is shit
 

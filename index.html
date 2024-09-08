@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL Query Builder Test</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="js/queryBuilder.js"></script>
-    <script src="js/savedQueries.js" type="module"></script>
-    <script src="js/confirmationDialogue.js" type="module"></script>
-    <script src="js/tableInspect.js"></script>
-    <script src="main.js" defer></script>
+    <script src="./js/queryBuilder.js"></script>
+    <script src="./js/savedQueries.js" type="module"></script>
+    <script src="./js/confirmationDialogue.js" type="module"></script>
+    <script src="./js/tableInspect.js"></script>
+
+    <script src="./sampleDataGenerator.js" defer></script>
+
+    <script src="./main.js" defer></script>
 </head>
 <body>
     <header>
@@ -23,7 +26,7 @@
                     <button id="toggle-table-container" class="btn" onclick="toggleElement('table-container')">Show Table Tool</button>
                 </div>
                 <ul>
-                    <li><a href="/db-editor">DB Editor (WIP)</a></li>
+                    <li><a href="./db-editor.html">DB Editor (WIP)</a></li>
                 </ul>
             </ul>
         </nav>
@@ -80,26 +83,19 @@
             </div>
         
             <div class="query-section">
-                <button id="run-query">Run Query</button>
-                <!-- Button to open modal -->
-            </div>
-        
-            <!-- pre copy or export to csv -->
-            <div class="query-section">
-                <h3 id="query-results-header">Query Results:</h3>
-                <pre id="query-results"></pre>
+                <button id="save-query">Save Query</button>
             </div>
 
-            <div class="query-section">
+            <!-- <div class="query-section">
                 <button id="export-results" style="display: none;">Export Results to CSV</button>
-                <!-- Button to open modal -->
+            </div> -->
+
+            <div class="query-section">
+                <button id="generate-count-query">Generate Count Query</button>
+                <div id="count-query-output"></div>
             </div>
-        
-            <p>- saves query to localstorage on Run Query</p>
-            <p>- access query history from top navigation "view saved queries"</p>
         </div>
 
-        <!-- <div id="table-container" class="table-container wrapper" draggable="true"> -->
         <div id="table-container" class="table-container wrapper">
             <button class="close-btn" onclick="closeElement('table-container')">×</button>
 
@@ -109,8 +105,6 @@
                     <button class="font-btn" onclick="adjustFontSize('table-container', -1)">-</button>
             </div>
 
-
-            <!-- <button disabled type="button" onclick="populateTableSelect()">Populate Tables</button> -->
             <label for="table-select">Select Table:</label>
             <select id="table-select" onchange="displayTableDetails()"></select>
             <div id="table-details">

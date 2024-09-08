@@ -153,6 +153,10 @@ main#query-builder-main .wrapper:last-child {
     flex-basis: 50%;
 }
 
+main.query-converter .wrapper {
+    flex-basis: 100%;
+}
+
 .modal .wrapper {
     min-width: 800px;
     max-width: 1800px;
@@ -346,7 +350,7 @@ table {
 
 .query-comment {
     margin-right: 25px;
-    width: 100px;
+    width: 150px;
 }
 
 .query-text {
@@ -356,7 +360,7 @@ table {
 .query-buttons { 
     display: flex;
     flex-direction: row;
-    flex-basis: 30%;
+    /* flex-basis: 10%; */
     justify-content: flex-end;
 }
 

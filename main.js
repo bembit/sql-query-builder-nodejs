@@ -1,7 +1,3 @@
-// drag and drop
-
-// remove elements from DOM
-
 document.addEventListener('DOMContentLoaded', () => {
     const containers = document.querySelectorAll('.wrapper');
     const containerParent = document.querySelector('main');
@@ -57,8 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('divOrder', JSON.stringify(order));
     }
 });
-
-// main.js
 
 document.addEventListener("DOMContentLoaded", function () {
     // Restore visibility states from local storage

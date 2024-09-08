@@ -89,12 +89,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="query-text">${query.text}</div>
                 <div class="query-buttons">
-                    <button class="history-btn run-query" data-id="${query.id}">Run Query</button>
-                    <button disabled class="history-btn export-query" data-id="${query.id}">Export Query to CSV</button>
-                    <button disabled class="history-btn load-query" data-id="${query.id}">Load</button>
-                    <button class="history-btn delete-query" data-id="${query.id}">Delete</button>
+                <button class="history-btn delete-query" data-id="${query.id}">Delete</button>
                 </div>
-            `;
+                `;
+                // <button disabled class="history-btn load-query" data-id="${query.id}">Load</button>
+                // <button class="history-btn run-query" data-id="${query.id}">Run Query</button>
+                // <button disabled class="history-btn export-query" data-id="${query.id}">Export Query to CSV</button>
+
+
 
             // Add event listener for saving the comment
             queryItem.querySelector('.save-comment').addEventListener('click', (event) => {
@@ -103,12 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveComment(id, newComment);
             });
     
-            queryItem.querySelector('.load-query').addEventListener('click', (event) => {
-                const id = event.target.dataset.id;
-                const queryText = getQueryTextById(id);
-                queryOutput.textContent = queryText;
-                queryModal.style.display = 'none'; // Close the modal
-            });
+            // queryItem.querySelector('.load-query').addEventListener('click', (event) => {
+            //     const id = event.target.dataset.id;
+            //     const queryText = getQueryTextById(id);
+            //     queryOutput.textContent = queryText;
+            //     queryModal.style.display = 'none'; // Close the modal
+            // });
     
             queryItem.querySelector('.delete-query').addEventListener('click', (event) => {
                 const id = event.target.dataset.id;
@@ -123,17 +125,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             });
     
-            queryItem.querySelector('.run-query').addEventListener('click', (event) => {
-                const id = event.target.dataset.id;
-                const queryText = getQueryTextById(id);
-                runQueryFromHistory(queryText, queryResults);
-            });
+            // queryItem.querySelector('.run-query').addEventListener('click', (event) => {
+            //     const id = event.target.dataset.id;
+            //     const queryText = getQueryTextById(id);
+            //     runQueryFromHistory(queryText, queryResults);
+            // });
     
-            queryItem.querySelector('.export-query').addEventListener('click', (event) => {
-                const id = event.target.dataset.id;
-                const queryText = getQueryTextById(id);
-                exportToCSV(queryText);
-            });
+            // queryItem.querySelector('.export-query').addEventListener('click', (event) => {
+            //     const id = event.target.dataset.id;
+            //     const queryText = getQueryTextById(id);
+            //     exportToCSV(queryText);
+            // });
     
             queryList.appendChild(queryItem);
         });

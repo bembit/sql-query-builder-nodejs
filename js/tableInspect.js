@@ -5,7 +5,7 @@
 
 function populateTableSelect() {
     // Fetch the schema information from the backend
-    fetch('/api/schema')
+    fetch('./tables/schema.json')
         .then(response => response.json())
         .then(schema => {
             console.log('Database Schema:', schema);
@@ -85,9 +85,14 @@ function sampleData() {
     const tableSelect = document.getElementById('table-select');
     const selectedTable = tableSelect.value;
 
-    // Fetch sample data for the selected table
-    fetch(`/api/sample-data?table=${encodeURIComponent(selectedTable)}`)
-        .then(response => response.json())
+    // Fetch sample data for the selected table from local JSON files
+    fetch(`../tables/${encodeURIComponent(selectedTable)}.json`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             const sampleDataContainer = document.getElementById('sample-data');
             sampleDataContainer.innerHTML = ''; // Clear existing data
@@ -103,7 +108,7 @@ function sampleData() {
                             </tr>
                         </thead>
                         <tbody>
-                            ${data.rows.map(row => `
+                            ${data.rows.slice(0, 5).map(row => `
                                 <tr>
                                     ${Object.values(row).map(value => `<td>${value}</td>`).join('')}
                                 </tr>
@@ -116,8 +121,12 @@ function sampleData() {
                 sampleDataContainer.innerHTML = '<p>No sample data available.</p>';
             }
         })
-        .catch(error => console.error('Error fetching sample data:', error));
+        .catch(error => {
+            console.error('Error fetching sample data:', error);
+            document.getElementById('sample-data').innerHTML = '<p>Error loading sample data.</p>';
+        });
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     populateTableSelect();

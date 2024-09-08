@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const conditionInputs = document.getElementById('condition-inputs');
     const queryComment = document.getElementById('query-comment');
     const distinctCheckbox = document.getElementById('select-distinct');
+
+    const countQueryOutput = document.getElementById('count-query-output');
+
     
     let queryParts = {
         select: '*',
@@ -19,33 +22,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let schema = {};
 
+    // Modify populateTableSelect to load a local JSON file
     function populateTableSelect() {
-        fetch('/api/schema')
+        fetch('./tables/schema.json')
             .then(response => response.json())
             .then(schemaData => {
-                console.log('Database Schema:', schemaData);
-    
-                tableSelect.innerHTML = ''; 
-    
+                console.log('Loaded Schema:', schemaData);
+
+                tableSelect.innerHTML = '';
+
                 Object.keys(schemaData).forEach(table => {
                     const option = document.createElement('option');
                     option.value = table;
                     option.textContent = table;
                     tableSelect.appendChild(option);
                 });
-    
+
                 schema = schemaData;
-    
-                // Select the first table by default and populate its columns
+
                 const firstTable = tableSelect.options[0]?.value;
                 if (firstTable) {
-                    tableSelect.value = firstTable; // Set the dropdown to the first table
-                    queryParts.from = firstTable; // Set the default table in query parts
-                    populateColumnSelect(firstTable); // Populate columns for the first table
+                    tableSelect.value = firstTable;
+                    queryParts.from = firstTable;
+                    populateColumnSelect(firstTable);
                     updateQuery();
                 }
             })
-            .catch(error => console.error('Error fetching schema:', error));
+            .catch(error => console.error('Error loading schema:', error));
     }
 
     function populateColumnSelect(table, selectElement = columnSelect) {
@@ -110,22 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update the output
         queryOutput.textContent = query;
     }
-
-    function generateCountQuery(originalQuery) {
-        // Find the indices for the SELECT and FROM keywords
-        const selectIndex = originalQuery.toUpperCase().indexOf('SELECT');
-        const fromIndex = originalQuery.toUpperCase().indexOf('FROM');
-    
-        // Extract the part before SELECT and after FROM
-        const beforeSelect = originalQuery.substring(0, selectIndex + 6); // Include "SELECT"
-        const afterFrom = originalQuery.substring(fromIndex); // Everything from "FROM" onward
-    
-        // Construct the COUNT query by replacing the selected columns with COUNT(*)
-        const countQuery = `${beforeSelect} COUNT(*) AS total_count ${afterFrom}`;
-    
-        return countQuery;
-    }
-    
 
     function handleInputChange() {
         queryParts.joins = Array.from(joinInputs.querySelectorAll('.query-section')).map(div => {
@@ -227,49 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateQuery();
     }
 
-    function runQuery() {
-        const originalQuery = queryOutput.textContent;
-    
-        // Run the original query
-        fetch('/api/query', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ query: originalQuery })
-        })
-        .then(response => response.json())
-        .then(data => {
-            queryResults.textContent = JSON.stringify(data.rows, null, 2);
-            
-            // After running the original query, generate and run the count query
-            const countQuery = generateCountQuery(originalQuery);
-            return fetch('/api/query', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ query: countQuery })
-            });
-        })
-        .then(response => response.json())
-        .then(countData => {
-            // Display the count result
-            const queryResultsNumber = document.getElementById('query-results-header');
-            queryResultsNumber.textContent = 'Query Results:';
-            console.log("Total Count:", countData.rows[0].total_count);
-            queryResultsNumber.textContent += ` - Total Count: ${countData.rows[0].total_count}`;
-            
-            // Display the export button after results are fetched
-            document.getElementById('export-results').style.display = 'inline-block';
-            
-            saveQueryToLocalStorage();
-        })
-        .catch(error => console.error('Error running query:', error));
-    }
-    
-    
-
     // Function to generate a unique ID
     function generateUniqueId() {
         return '_' + Math.random().toString(36).substr(2, 9);
@@ -301,6 +245,22 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('queries', JSON.stringify(queries));
     }
 
+    function generateCountQuery() {
+        const selectClause = 'SELECT COUNT(*) AS total_count';
+        const fromClause = `FROM ${queryParts.from}`;
+        const joinsClause = queryParts.joins.length > 0 ? ' ' + queryParts.joins.join(' ') : '';
+        const whereClause = queryParts.where.length > 0 ? ' WHERE ' + queryParts.where.join(' AND ') : '';
+        const conditionsClause = queryParts.conditions.length > 0 ? ' AND ' + queryParts.conditions.join(' AND ') : '';
+
+        const countQuery = `${selectClause} ${fromClause}${joinsClause}${whereClause}${conditionsClause}`;
+
+        countQueryOutput.textContent = countQuery;
+    }
+
+    // Event listener for generating count query
+    document.getElementById('generate-count-query').addEventListener('click', generateCountQuery);
+
+
     // Add event listener for the distinct checkbox
     distinctCheckbox.addEventListener('change', updateQuery);
     // Add event listener for the table select
@@ -318,7 +278,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('add-join').addEventListener('click', addJoin);
     document.getElementById('add-where').addEventListener('click', addWhere);
     document.getElementById('add-condition').addEventListener('click', addCondition);
-    document.getElementById('run-query').addEventListener('click', runQuery);
+    // document.getElementById('run-query').addEventListener('click', runQuery);
+    document.getElementById('save-query').addEventListener('click', saveQueryToLocalStorage);
 
     populateTableSelect();
 
@@ -355,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    document.getElementById('export-results').addEventListener('click', exportResultsToCSV);
+    // document.getElementById('export-results').addEventListener('click', exportResultsToCSV);
 
     // Enable query editing on double click
     queryOutput.addEventListener('dblclick', () => {

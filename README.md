@@ -10,6 +10,10 @@
 
 A validation would be great so we couldn't spam empty SELECT * queries.
 
+- [x] reworked double click to edit query
+
+- [ ] add generate count button
+
 - [ ] add order by default _id ?
 
 - [x] added lots of UI shit as usual

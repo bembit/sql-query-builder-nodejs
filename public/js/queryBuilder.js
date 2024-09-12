@@ -364,8 +364,10 @@ document.addEventListener('DOMContentLoaded', () => {
         input.value = currentQuery;
         input.style.width = '100%';
         input.style.height = '100px';
+        input.style.paddingTop = '10px';
+        input.style.marginTop = '10px';
         
-        queryOutput.innerHTML = '';
+        queryOutput.innerHTML = currentQuery;
         queryOutput.appendChild(input);
         input.focus();
 
@@ -382,5 +384,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
 
 });
